@@ -1,0 +1,42 @@
+ [
+    {
+        "Name": "Emergency Care",
+        "PhotoLink": "https://example.com/services/emergency_care.png"
+    },
+    {
+        "Name": "Outpatient Services",
+        "PhotoLink": "https://example.com/services/outpatient_services.png"
+    },
+    {
+        "Name": "Surgery",
+        "PhotoLink": "https://example.com/services/surgery.png"
+    },
+    {
+        "Name": "Radiology",
+        "PhotoLink": "https://example.com/services/radiology.png"
+    },
+    {
+        "Name": "Laboratory",
+        "PhotoLink": "https://example.com/services/laboratory.png"
+    },
+    {
+        "Name": "Pharmacy",
+        "PhotoLink": "https://example.com/services/pharmacy.png"
+    },
+    {
+        "Name": "Intensive Care Unit (ICU)",
+        "PhotoLink": "https://example.com/services/icu.png"
+    },
+    {
+        "Name": "Physiotherapy",
+        "PhotoLink": "https://example.com/services/physiotherapy.png"
+    },
+    {
+        "Name": "Maternity Services",
+        "PhotoLink": "https://example.com/services/maternity.png"
+    },
+    {
+        "Name": "Pediatrics",
+        "PhotoLink": "https://example.com/services/pediatrics.png"
+    }
+]

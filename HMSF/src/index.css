@@ -1,0 +1,36 @@
+
+@plugin "daisyui";
+@import "tailwindcss";
+body{
+    background-color:white
+}
+
+
+
+#usersignup{
+  
+    opacity: .9;
+    transition: ease 2s;
+    animation-name: signup;
+    animation-duration: 2.7s;
+}
+@keyframes signup {
+    
+    0%{ 
+        transform: translateX(-320px);}
+    /* 20%{ transform: translateX(-275px); }
+    40%{ transform: translateX(-200px); }
+    60%{ transform: translateX(-120px); }
+    80%{ transform: translateX(-70px); } */
+    100%{ 
+        transform: translateX(0px); }
+    
+}
+ /* li{ 
+    margin-top: 3px;
+    border: 2px solid black;
+    border-radius: 4px;
+ }
+ li:hover{
+background-color: rgb(238, 238, 238);
+ } */

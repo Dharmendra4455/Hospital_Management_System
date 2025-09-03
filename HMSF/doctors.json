@@ -1,0 +1,73 @@
+[
+    {
+        
+        "Name": "Dr. Aisha Verma",
+        "PhotoLink": "https://example.com/photos/aisha_verma.png",
+        "Specialist": "Cardiologist",
+        "Degree": "MD, DM (Cardiology)"
+    },
+    {
+        "Name": "Dr. Rajiv Menon",
+        "PhotoLink": "https://example.com/photos/rajiv_menon.png",
+        "Specialist": "Neurologist",
+        "Degree": "MD, DM (Neurology)"
+    },
+    {
+      
+        "Name": "Dr. Sneha Patil",
+        "PhotoLink": "https://example.com/photos/sneha_patil.png",
+        "Specialist": "Dermatologist",
+        "Degree": "MBBS, MD (Dermatology)"
+    },
+    {
+     
+        "Name": "Dr. Arjun Khanna",
+        "PhotoLink": "https://example.com/photos/arjun_khanna.png",
+        "Specialist": "Orthopedic Surgeon",
+        "Degree": "MBBS, MS (Orthopedics)"
+    },
+    {
+        "Name": "Dr. Meera Shah",
+        "PhotoLink": "https://example.com/photos/meera_shah.png",
+        "Specialist": "Pediatrician",
+        "Degree": "MBBS, MD (Pediatrics)"
+    },
+    {
+     
+        "Name": "Dr. Vikram Rao",
+        "PhotoLink": "https://example.com/photos/vikram_rao.png",
+        "Specialist": "Oncologist",
+        "Degree": "MD, DM (Medical Oncology)"
+    },
+    {
+       
+        "Name": "Dr. Neha Bansal",
+        "PhotoLink": "https://example.com/photos/neha_bansal.png",
+        "Specialist": "Gynecologist",
+        "Degree": "MBBS, MS (OBG)"
+    },
+    {
+       
+        "Name": "Dr. Aditya Sengupta",
+        "PhotoLink": "https://example.com/photos/aditya_sengupta.png",
+        "Specialist": "ENT Specialist",
+        "Degree": "MBBS, MS (ENT)"
+    },
+    {
+       
+        "Name": "Dr. Kavita Reddy",
+        "PhotoLink": "https://example.com/photos/kavita_reddy.png",
+        "Specialist": "Psychiatrist",
+        "Degree": "MBBS, MD (Psychiatry)"
+    },
+    {
+       
+        "Name": "Dr. Mohan Das",
+        "PhotoLink": "https://example.com/photos/mohan_das.png",
+        "Specialist": "General Physician",
+        "Degree": "MBBS, MD (Internal Medicine)"
+    }
+]
+
+
+
