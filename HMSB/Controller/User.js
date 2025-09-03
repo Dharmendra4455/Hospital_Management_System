@@ -71,7 +71,7 @@ catch(err){
     console.log(err)
 }
 }
-// Pending task
+
 export const otherdata=async(req,res)=>{
     const email=req.query.email;
    
