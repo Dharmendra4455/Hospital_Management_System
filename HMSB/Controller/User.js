@@ -59,7 +59,7 @@ catch(error){
 export const forget=async(req,res)=>{
  const email=req.body.email;
  const firstname=req.body.firstname;
- //const Dateofbirth=req.body.Dateofbirth ;
+ //const Dateofbirth=req.body.Dateofbirth;
 try{
  const data=await Users.findOne({email})  
  if(data)
