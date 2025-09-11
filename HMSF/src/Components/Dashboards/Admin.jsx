@@ -100,8 +100,19 @@ otherdatahandler()
 
             </table>
           </div>
-
-
+{/* profile model */}
+<dialog id="my_modal_2" className="modal">
+  <div className="modal-box">
+    <h3 className="font-bold text-lg">Hello!</h3>
+    <p className="py-4">Press ESC key or click the button below to close</p>
+    <div className="modal-action">
+      <form method="dialog">
+        {/* if there is a button in form, it will close the modal */}
+        <button className="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
           {/* Doctors chart */}
 
           {/* Dharmendrapateladmin123@gmail.com */}
@@ -111,7 +122,7 @@ otherdatahandler()
           <div className="overflow-x-auto border-blue-600 border-2 m-2 ">
             <table className="table table-xs text-black">
               <thead className='text-black'>
-                <tr>
+                <tr className='border-1 border-black '>
                   <th></th>
                   <th>Name</th>
                   <th>Department</th>
@@ -128,12 +139,17 @@ otherdatahandler()
               </thead>
               <tbody>
                 {data2?.doctordata?.map((item, id) => {
-                  return (<tr key={id}>
+                  return (<tr className='border-1 border-black rounded' key={id}
+
+                  >
                     <th>{id + 1}</th>
-                    <td>Dr. {item.firstname+" "+item.lastname}</td>
+                    <td className='hover:text-blue-800 cursor-pointer'
+                      onClick={()=>document.getElementById('my_modal_2').showModal(id)}
+                      >Dr. {item.firstname+" "+item.lastname}
+                    </td>
                     <td>{item.department}</td>
                     <td>{item.gender}</td>
-                    <td>{item.Dateofbirth}</td>
+                    <td>{item.dob}</td>
                     <td>{item.contact}</td>
                     <td>{item.address}</td>
                     <td>{item.salary}</td>
