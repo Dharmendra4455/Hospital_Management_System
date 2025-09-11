@@ -53,7 +53,7 @@ const Admin = mongoose.Schema({
 const Doctor = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
-    Dateofbirth: String,
+    dob: String,
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     gender: String,
@@ -63,6 +63,12 @@ const Doctor = mongoose.Schema({
     state: String,
     department: String,
     salary: String,
+    Availability:{type:Boolean,default:true},
+    Availabledayfrom:String,
+    Availabledayto:String,
+    Availabletimefrom:String,
+    Availabletimeto:String,
+
 }, {
     timestamps: true//this enable automatic created an updated time
 }

@@ -4,7 +4,7 @@ export const doctors=async (req,res)=>{
   try{
     const{ firstname,
       lastname,
-      Dateofbirth,
+      dob,
       email,
       password,
       gender,
@@ -13,7 +13,11 @@ export const doctors=async (req,res)=>{
       city,
       state,
       department,
-      salary}=req.body
+      salary,
+      dayfrom,
+      dayto,
+      timefrom,
+      timeto}=req.body
 
     console.log('Received body:', req.body);
     const exist= await doctor.findOne({email})
@@ -26,7 +30,7 @@ export const doctors=async (req,res)=>{
     const data=new doctor({
       firstname,
       lastname,
-      Dateofbirth,
+      dob,
       email,
       password:hashpass,
       gender,
@@ -35,7 +39,11 @@ export const doctors=async (req,res)=>{
       city,
       state,
       department,
-      salary
+      salary,
+      Availabledayfrom:dayfrom,
+      Availabledayto:dayto,
+      Availabletimefrom:timefrom,
+      Availabletimeto:timeto,
     });
     await data.save()
     console.log('Doctor saved:', data);
