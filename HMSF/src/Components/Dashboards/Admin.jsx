@@ -11,6 +11,13 @@ import { FcDepartment } from "react-icons/fc";
 import { FaHandshake } from "react-icons/fa6";
 import { CgUnavailable } from "react-icons/cg";
 import { TbLivePhoto } from "react-icons/tb";
+import Chart from '../Charts/Chart'
+import DonutChart from '../Charts/DonutChart'
+import BarChartHorizontal from '../Charts/BarChartHorizontal'
+import PieChartWithCenterLabel from '../Charts/PieCenterLabel'
+import ArcDesign from '../Charts/ArcDesign'
+import MinBarSize from '../Charts/MinBarSize'
+
 const Admin = () => {
   const [data2, setdata2] = useState() //to store other data
   const [selectedprsondata, setselectedperson] = useState()
@@ -73,7 +80,8 @@ const Admin = () => {
           </div>
 
           <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
-          <div className="overflow-x-auto border-red-600 border-2 m-2">
+          <div className="appintmentchart_container flex justify-between">
+          <div className="overflow-x-auto border-red-600 border-2 m-2 w-full">
             <table className="table table-xs text-black">
               <thead className='text-black'>
                 <tr>
@@ -115,8 +123,15 @@ const Admin = () => {
 
             </table>
           </div>
+          <div className="pie  border-1 border-red-600 mt-2 mr-2">
+            <h1 className='text-black text-center font-semibold '>Total Appointments</h1>
+            <PieChartWithCenterLabel/>
+          </div>
+          
+          </div>
           {/* profile model */}
           <dialog id="my_modal_2" className="modal">
+          
             <div className={selectedprsondata?.Availability?"modal-box bg-green-400 w-[425px]":"modal-box bg-red-400 w-[425px]"}>
               <div className="avatar flex justify-center  ">
                 <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2 bg-gray-700">
@@ -193,23 +208,18 @@ const Admin = () => {
           {/* Dharmendrapateladmin123@gmail.com */}
 
           <h1 className='text-blue-600 text-xl ml-2  font-semibold inline-block mt-10'>Doctors</h1>
-
-          <div className="overflow-x-auto border-blue-600 border-2 m-2 ">
+         <div className="doctorChart flex justify-end gap-2">
+          <div className="overflow-x-auto ml-2 w-full">
             <table className="table table-xs text-black">
               <thead className='text-black'>
                 <tr className='border-1 border-black '>
-                  <th></th>
+                  
                   <th>Name</th>
                   <th>Department</th>
-                  <th>gender</th>
-                  <th>DOB</th>
-                  <th>Contact</th>
-                  <th>Address</th>
-                  <th>Salary</th>
-                  <th>Account created</th>
-                  <th>Last Update</th>
-                  <th>Email</th>
-
+                  <th>Availabe Days</th>
+                  <th>Timing</th>
+                  <th>Status</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -217,20 +227,17 @@ const Admin = () => {
                   return (<tr className='border-1 border-black rounded' key={id}
 
                   >
-                    <th>{id + 1}</th>
+                    
                     <td className='hover:text-blue-800 cursor-pointer'
                       onClick={() => profileshowhandler(item)}
                     >Dr. {item.firstname + " " + item.lastname}
                     </td>
                     <td>{item.department}</td>
-                    <td>{item.gender}</td>
-                    <td>{item.dob}</td>
-                    <td>{item.contact}</td>
-                    <td>{item.address}</td>
-                    <td>{item.salary}</td>
-                    <td>{item.createdAt}</td>
-                    <td>{item.updatedAt}</td>
-                    <td>{item.email}</td>
+                    <td>{item.Availabledayfrom.slice(0,3) +"-"+item.Availabledayto.slice(0,3)}</td>
+                    <td>{item.Availabletimefrom +"-"+item.Availabletimeto}</td>
+                    <td className={item.Availability? "text-green-500":"text-red-600"}>{item.Availability?"Available":"Unavailabl"}</td>
+                   
+                   
                   </tr>)
                 })}
 
@@ -238,10 +245,17 @@ const Admin = () => {
 
             </table>
           </div>
-
+          <div className="pie1 border-1 border-blue-600 ">
+            <h2 className='text-black text-center font-semibold '>Total Doctors </h2>
+            <PieChartWithCenterLabel/></div>
+          <div className="pie2 border-1 border-blue-600  mr-2">
+            <h2 className='text-black text-center font-semibold '>Availables Doctors</h2>
+            <DonutChart/></div>
+          
+          </div>
           <h1 className='text-green-500 text-xl ml-2  font-semibold inline-block mt-10'>Users</h1>
-
-          <div className="overflow-x-auto border-green-500 border-2 m-2">
+          <div className="Userchart flex  ">
+    <div className="overflow-x-auto w-full border-green-500 border-2 m-2">
             <table className="table table-xs text-black">
               <thead className='text-black'>
                 <tr>
@@ -269,8 +283,17 @@ const Admin = () => {
 
             </table>
           </div>
-
-
+          <div className="Avgwaitingtim w-xl border-1 border-green-400 mt-2 mr-2">
+          <h2 className='text-black text-center font-semibold '>Average Waiting Time</h2>
+             <BarChartHorizontal/>
+          </div>
+          
+          </div>
+{/*          
+          <PieChartWithCenterLabel/>
+         <ArcDesign/>
+         <MinBarSize/>
+   */}
         </div>
 
         : <Navigate to='/' />}
