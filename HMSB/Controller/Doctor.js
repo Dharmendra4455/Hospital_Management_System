@@ -1,4 +1,4 @@
-import { doctor } from "../Models/Schema.js"
+import { appointment, doctor } from "../Models/Schema.js"
 import bcryptjs from 'bcryptjs'
 export const doctors=async (req,res)=>{
   try{
@@ -79,4 +79,10 @@ export const doctors=async (req,res)=>{
    {
     res.status(400).json({message:"Internal Server Error!"})
    }
+}
+
+export const appointmentdatas=async(req,res)=>{
+  const appointmentdata=await appointment.find({})
+  res.send(appointmentdata)
+
 }
