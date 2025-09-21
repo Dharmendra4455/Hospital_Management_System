@@ -34,8 +34,6 @@ const Admin = () => {
   useEffect(() => {
     otherdatahandler()
   }, [])
-  console.log(selectedprsondata);
-
   const profileshowhandler = (item) => {
     setselectedperson(item)
     document.getElementById('my_modal_2').showModal()
@@ -43,8 +41,11 @@ const Admin = () => {
   const modalClosehandler = () => {
     document.getElementById('my_modal_2').close()
   }
+const currentdate=new Date().toLocaleDateString()
 
-  return (
+const sorteduserdata=  data2?.Userdata?.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+
+return (
     <>
       {admindata && person === 'admin' ?                   //to protect route- if admin login then its data came into data2 var and allow to login otherwise Navigate to Home(/) Route
 
@@ -82,9 +83,9 @@ const Admin = () => {
           <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
           <div className="appintmentchart_container flex justify-between">
           <div className="overflow-x-auto border-red-600 border-2 m-2 w-full">
-            <table className="table table-xs text-black">
+            <table className="table table-xs  text-black">
               <thead className='text-black'>
-                <tr>
+                <tr className=''>
                   <th></th>
                   <th>Name</th>
                   {/* <th>age</th> */}
@@ -100,9 +101,9 @@ const Admin = () => {
                   <th>Alloted Time</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='font-semibold'>
                 {data2?.appointmentdata?.map((item, id) => {
-                  return (<tr key={id}>
+                  return (<tr className='bg-red-500' key={id}>
                     <th>{id + 1}</th>
                     <td>{item.firstname + " " + item.lastname}</td>
                     {/* <td>{data2.Userdata.findOne({item.email}).dateofbirth}</td> */}
@@ -112,7 +113,15 @@ const Admin = () => {
                     <td>{item.contact}</td>
                     <td>{item.address}</td>
                     <td>{item.state}</td>
-                    <td>{item.doctor}</td>
+                    <td>
+                      <select name="" id="">
+                      { data2?.doctordata?.map((item2,id)=>{
+                        return(
+                        <option key={id} className={item2.Availability?"bg-green-500":"bg-red-600"} >{item2.firstname+item2.lastname}</option>
+                        )
+                      })}
+                      </select>
+                    </td>
                     <td>{item.status}</td>
                     <td>{item.alloteddate}</td>
                     <td>{item.allotedtime}</td>
@@ -139,7 +148,7 @@ const Admin = () => {
                     : <h1 className='text-5xl font-bold text-black text-center pt-5'>{selectedprsondata?.firstname.slice(0, 1)}</h1>}
                 </div>
               </div>
-              <h3 className="font-bold text-lg text-center mt-2">{selectedprsondata?.firstname + " " + selectedprsondata?.lastname} </h3>
+              <h3 className="font-bold text-lg text-center mt-2">{"Dr. "+selectedprsondata?.firstname + " " + selectedprsondata?.lastname} </h3>
               <div className="details ml-4 mt-3 flex flex-col gap-y-3 text-black">
                 <div className="gender_dob flex gap-20">
 
@@ -224,7 +233,7 @@ const Admin = () => {
               </thead>
               <tbody>
                 {data2?.doctordata?.map((item, id) => {
-                  return (<tr className='border-1 border-black rounded' key={id}
+                  return (<tr className={item.Availability?'border-1 border-black rounded bg-green-500 font-semibold':'font-semibold border-1 border-black rounded bg-red-400'} key={id}
 
                   >
                     
@@ -235,7 +244,7 @@ const Admin = () => {
                     <td>{item.department}</td>
                     <td>{item.Availabledayfrom.slice(0,3) +"-"+item.Availabledayto.slice(0,3)}</td>
                     <td>{item.Availabletimefrom +"-"+item.Availabletimeto}</td>
-                    <td className={item.Availability? "text-green-500":"text-red-600"}>{item.Availability?"Available":"Unavailabl"}</td>
+                    <td>{item.Availability?"Available":"Unavailabl"}</td>
                    
                    
                   </tr>)
@@ -255,7 +264,7 @@ const Admin = () => {
           </div>
           <h1 className='text-green-500 text-xl ml-2  font-semibold inline-block mt-10'>Users</h1>
           <div className="Userchart flex  ">
-    <div className="overflow-x-auto w-full border-green-500 border-2 m-2">
+          <div className="overflow-x-auto w-full border-green-500 border-2 m-2">
             <table className="table table-xs text-black">
               <thead className='text-black'>
                 <tr>
@@ -269,12 +278,14 @@ const Admin = () => {
               </thead>
               <tbody>
                 {data2?.Userdata?.map((item, id) => {
-                  return (<tr key={id}>
+                  const createddate=new Date(item.createdAt).toLocaleDateString()
+                  
+                  return (<tr className={currentdate===createddate?'bg-green-500':""} key={id}>
                     <th>{id + 1}</th>
                     <td>{item.firstname + " " + item.lastname}</td>
                     <td>{item.Dateofbirth}</td>
                     <td>{item.email}</td>
-                    <td>{item.createdAt}</td>
+                    <td>{createddate}</td>
 
                   </tr>)
                 })}
