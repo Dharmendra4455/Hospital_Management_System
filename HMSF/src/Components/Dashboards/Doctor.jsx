@@ -9,7 +9,7 @@ import DashedLineChart from '../Charts/DashedLineChart'
 import BiaxialLineChart from '../Charts/BiaxialLineChart'
 import ColorCustomization from '../Charts/ColorCustomization'
 import axios from 'axios'
-import { BsGenderFemale, BsGenderMale } from 'react-icons/bs'
+import { BsFillArrowLeftSquareFill, BsGenderFemale, BsGenderMale } from 'react-icons/bs'
 import { LiaBirthdayCakeSolid } from 'react-icons/lia'
 import { MdCall, MdEmail, MdEventAvailable, MdLocationPin, MdModeEditOutline } from 'react-icons/md'
 import { IoMdStarOutline } from "react-icons/io";
@@ -18,6 +18,8 @@ import { SiTask } from "react-icons/si";
 import { GiProgression } from "react-icons/gi";
 import { MdHome } from "react-icons/md";
 import { GrStatusCritical } from "react-icons/gr";
+
+
 
 const Doctor = () => {
   const [status, setstatus] = useState("pending")
@@ -52,7 +54,6 @@ const Doctor = () => {
     document.getElementById('my_modal_2').close()
   }
   const currentdate = new Date().toLocaleDateString()
-
   return (
     <>
       {data2 && person === 'doctor' ?
@@ -61,8 +62,9 @@ const Doctor = () => {
           {/* Update modal */}
           <dialog id="my_modal_2" className="modal">
 
-            <div className={status === 'Discharged' ? "modal-box bg-green-400 w-[425px]" :
+            <div className={status === 'Discharged' ? "modal-box bg-green-700 w-[425px]" :
               status === 'Progress' ? "modal-box bg-yellow-400 w-[425px]" :
+               status === 'Good' ? "modal-box bg-green-400 w-[425px]" :
                 "modal-box bg-red-400 w-[425px]"}>
               <div className="avatar flex justify-center  ">
                 <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2 bg-gray-700">
@@ -111,7 +113,8 @@ const Doctor = () => {
                         <option value="pending">Select one</option>
                         <option className='bg-red-600' value="Critical">Critical</option>
                         <option className='bg-yellow-500' value="Progress">Progress</option>
-                        <option className='bg-green-500' value="Discharged">Discharged</option>
+                        <option className='bg-green-500' value="Good">Good</option>
+                        <option className='bg-green-700' value="Discharged">Discharged</option>
 
                       </select>
                     </div>
@@ -124,16 +127,16 @@ const Doctor = () => {
                     <div className="icon text-gray-200 text-2xl">{<IoMdStarOutline />}</div>
                     <div className='text-md'>
                       {status !== 'pending' ? <select onChange={(e) => { sethealthrate(e.target.value) }} value={healthrate}>
-                        <option value="0" className='bg-red-600 pointer-events-none'>0  Critical</option>
-                        <option value="1" className='bg-red-500'>1  Critical</option>
-                        <option value="2" className='bg-yellow-600'>2  going Progress</option>
-                        <option value="3" className='bg-yellow-400'>3  Progress</option>
-                        <option value="4" className='bg-green-400'>4  good</option>
-                        <option value="5" className='bg-green-600'>5  Normal</option>
-                        <option value="6" className='bg-green-400'>6  good</option>
-                        <option value="7" className='bg-yellow-700'>7  going Critical</option>
-                        <option value="8" className='bg-red-500' {status!='critical'? disable:""}>8  Critical</option>
-                        <option value="9" className='bg-red-600' {status!='critical'? disable:""} >9  Critical</option>
+                        <option value="0" className='bg-red-600'disabled={status!=='Critical'?true:false}>0  Critical</option>
+                        <option value="1" className='bg-red-500'disabled={status!=='Critical'?true:false}>1  Critical</option>
+                        <option value="2" className='bg-yellow-600'disabled={status!=='Progress'?true:false}>2  going Progress</option>
+                        <option value="3" className='bg-yellow-400'disabled={status!=='Progress'?true:false}>3  Progress</option>
+                        <option value="4" className='bg-green-400'disabled={status!=='Good'?true:false}>4  good</option>
+                        <option value="5" className='bg-green-600'disabled={status!=='Discharged'?true:false}>5  Normal</option>
+                        <option value="6" className='bg-green-400'disabled={status!=='Good'?true:false}>6  good</option>
+                        <option value="7" className='bg-yellow-700' disabled={status!=='Critical'?true:false}>7  going Critical</option>
+                        <option value="8" className='bg-red-500' disabled={status!=='Critical'?true:false}> 8 Critical</option>
+                        <option value="9" className='bg-red-600' disabled={status!=='Critical'?true:false}>9 Critical</option>
                       </select> : ""}
                     </div>
                   </div>
@@ -197,10 +200,10 @@ const Doctor = () => {
 
             <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
             <div className="appintmentchart_container flex justify-between">
-              <div className="overflow-x-auto border-red-600 border-2 m-2 w-full">
+              <div className="overflow-x-auto border-black border-2 m-2 w-full">
                 <table className="table table-md  text-black">
                   <thead className='text-black'>
-                    <tr className=''>
+                    <tr className='border-black border-2'>
                       <th></th>
                       <th>Name</th>
                       {/* <th>age</th> */}
@@ -214,17 +217,24 @@ const Doctor = () => {
                   </thead>
                   <tbody className='font-semibold'>
                     {data3?.map((item, id) => {
-                      return (<tr className='bg-red-500' key={id}>
+                      return (<tr className={'border-black border-2'} key={id}>
                         <th>{id + 1}</th>
                         <td>{item.firstname + " " + item.lastname}</td>
                         {/* <td>{data2.Userdata.findOne({item.email}).dateofbirth}</td> */}
                         <td>{item.appointmentdate}</td>
                         <td>{item.department}</td>
                         <td>{item.gender}</td>
-                        <td>{item.status}</td>
+                        <td className={item.status=='Pending'?"text-red-600":
+                          item.status=='Critical'?"text-red-600":
+                          item.status=='Good'?"text-green-400":
+                          item.status=='Progress'?"text-yellow-500":
+                          "text-green-700"
+                        }
+                        >{item.status}</td>
                         <td className='text-blue-600 cursor-pointer hover:text-blue-700'
                           onClick={() => Updateshowhandler(item)}
                         > <MdModeEditOutline/>Update</td>
+                         <div className='bg-white'> <ColorCustomization /></div>
                       </tr>)
                     })}
 
@@ -238,6 +248,7 @@ const Doctor = () => {
           {/* <SimpleAreaChart />
           <DashedLineChart />
           <BiaxialLineChart /> */}
+          
           <ColorCustomization />
         </div>
         : ""}
