@@ -16,7 +16,7 @@ import {route1} from './Routers/Userroute.js'
 import {route2} from './Routers/Userroute.js'
 import {route3} from './Routers/Userroute.js'
 import { Admin_login, Adminroute, Otherdata } from "./Routers/Admin.js";
-import { Docroute } from "./Routers/Doctor.js";
+import { appointmentdata, Docroute } from "./Routers/Doctor.js";
 import { docloginroute } from "./Routers/Doctor.js";
 import { appoints } from "./Routers/appointment.js";
 
@@ -30,6 +30,7 @@ import { appoints } from "./Routers/appointment.js";
  app.use('/admin',Admin_login)
  app.use('/admin',Otherdata)
  app.use('/doctor',Docroute)
+ app.use('/doctor',appointmentdata)
  app.use('/doctor',docloginroute)
  app.use('/user',appoints)
 //DB Connectivity

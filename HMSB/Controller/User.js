@@ -79,8 +79,6 @@ export const otherdata=async(req,res)=>{
      const appointmentdata=await appointment.find({email})
     res.send({
          appointmentdata,
-            doctordata,
-           
-    })
+   })
 
 }

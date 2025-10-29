@@ -53,7 +53,7 @@ const Admin = mongoose.Schema({
 const Doctor = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
-    Dateofbirth: String,
+    dob: String,
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     gender: String,
@@ -63,12 +63,23 @@ const Doctor = mongoose.Schema({
     state: String,
     department: String,
     salary: String,
+    Availability:{type:Boolean,default:true},
+    Availabledayfrom:String,
+    Availabledayto:String,
+    Availabletimefrom:String,
+    Availabletimeto:String,
+
 }, {
     timestamps: true//this enable automatic created an updated time
 }
 )
-
+const appointmentsupdate = mongoose.Schema({
+    patientstatus:{ type: String, default:"Normal"},
+    rating:Number,
+    description:String,
+})
 const appointments = mongoose.Schema({
+     appointmentid:{type:String, default:Date.now().toString(), unique: true},
     firstname: { type: String, required: true },
     lastname: String,
     Dateofbirth: String,
@@ -81,10 +92,11 @@ const appointments = mongoose.Schema({
     department: String,
     doctor: String,
     status: { type: String, default: "Pending" },
+     update:[appointmentsupdate],
     appointmentdate: { type: String, default: new Date().toDateString() },
     alloteddate: { type: String, default: "null" },
     allotedtime: { type: String, default: "null" },
-    description: { type: String, default: "Building no.121 2nd floor room no.23 " }
+    
 }, {
     timestamps: true//this enable automatic created an updated time
 }
