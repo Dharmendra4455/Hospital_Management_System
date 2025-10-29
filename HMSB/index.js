@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.json())
 dotenv.config();
 const Port=process.env.PORT||4001;
-const Mongouri=process.env.MONGODB_URL;
+const Mongouri=process.env.MONGODB_URL2;
 
 import {Doctorroute} from "./Routers/cardroute.js"
 import {serviceroute} from "./Routers/cardroute.js"
