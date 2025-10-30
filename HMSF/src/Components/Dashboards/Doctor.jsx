@@ -42,18 +42,35 @@ const Doctor = () => {
   useEffect(() => {
     otherdatahandler()
   }, [])
-  // console.log(data3)
+ 
+  // dharmendrapatel123@gmail.com
 
   const Updateshowhandler = (item) => {
     setstatus('pending')    //only used to manage bg color and rating selection of selected profile
     setselectedperson(item)
-    console.log(selectedprsondata?.firstname?.slice(0, 1))
+    // console.log(selectedprsondata?.firstname?.slice(0, 1))
     document.getElementById('my_modal_2').showModal()
   }
   const modalClosehandler = () => {
     document.getElementById('my_modal_2').close()
   }
   const currentdate = new Date().toLocaleDateString()
+
+  const StatusUpdatehandler=async(data)=>{
+    const _id =data._id
+    const statusdata={status,currentdate,description,healthrate,_id} 
+    
+    try{
+      const res = await axios.post('http://localhost:4000/doctor/appointmentstatus',statusdata)
+      if(res)
+        toast.success(res.data.message)
+    }
+    catch(err){
+      if(err.response)
+        toast.error(err.response.data.message)
+    } 
+   modalClosehandler()
+  }
   return (
     <>
       {data2 && person === 'doctor' ?
@@ -141,13 +158,13 @@ const Doctor = () => {
                     </div>
                   </div>
                   <div >
-                    <textarea placeholder='Description' className="w-36 h-20 bg-white" type='text' />
+                    <textarea placeholder='Description' className="w-36 h-20 bg-white" type='text'  onChange={(e)=>{setdescription(e.target.value)}}/>
                     
                   </div>
                 </div>
                 <div className="flex justify-center ">
-                  <button className="btn mr-5" >Update</button>
-                  <button className="btn ml-5" onClick={modalClosehandler}>Cancle</button>
+                  <button className="btn mr-5" onClick={()=>StatusUpdatehandler(selectedprsondata)} >Update</button>
+                  <button className="btn ml-5" onClick={modalClosehandler}>Cancel</button>
                 </div>
               </div>
             </div>
@@ -249,7 +266,7 @@ const Doctor = () => {
           <DashedLineChart />
           <BiaxialLineChart /> */}
           
-          <ColorCustomization />
+          {/* <ColorCustomization /> */}
         </div>
         : ""}
     </>

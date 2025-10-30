@@ -1,4 +1,5 @@
 import { appointment } from "../Models/Schema.js";
+import {ObjectId} from 'mongodb'
 export const appointments=async(req,res)=>{
     const{ firstname,
       lastname,
@@ -37,4 +38,10 @@ export const appointments=async(req,res)=>{
         res.status(404).json({message:"Internal Server Error!!"})
       }
 }
+}
+export const appointmentupdate =async(req,res)=>{
+  const data =req.body
+  // console.log(data) 
+  const appointmentdata = await appointment.findOne({_id:new ObjectId(data._id)})
+  console.log(appointmentdata)
 }
