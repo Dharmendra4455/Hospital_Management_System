@@ -41,7 +41,15 @@ export const appointments=async(req,res)=>{
 }
 export const appointmentupdate =async(req,res)=>{
   const data =req.body
-  // console.log(data) 
-  const appointmentdata = await appointment.findOne({_id:new ObjectId(data._id)})
-  console.log(appointmentdata)
+   console.log(data.data)
+ try{
+  const searchappointmentdatas = await appointment.findOneAndUpdate({_id:new ObjectId(data.id)},{update:data.data,status:data.data[data.data.length-1].status},{new: true })
+  searchappointmentdatas.save()
+  res.status(200).json({message:"Status Updated Successfully"})
+  }
+ 
+  catch(err){
+    res.status(400).json({message:"Internal Server Error", err})
+  }
+    // console.log(searchappointmentdatas)
 }

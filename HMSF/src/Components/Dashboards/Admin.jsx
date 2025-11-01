@@ -4,11 +4,11 @@ import { Navigate, NavLink } from 'react-router-dom'
 import Welcomebox from './Welcomebox'
 import axios from 'axios'
 
-import { MdCall, MdEmail, MdEventAvailable, MdLocationPin, MdOutlineAccessTimeFilled, MdOutlineAttachMoney } from "react-icons/md";
+import { MdCall, MdEdit, MdEmail, MdEventAvailable, MdLocationPin, MdOutlineAccessTimeFilled, MdOutlineAttachMoney } from "react-icons/md";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { BsGenderFemale, BsGenderMale } from "react-icons/bs";
 import { FcDepartment } from "react-icons/fc";
-import { FaHandshake } from "react-icons/fa6";
+import { FaHandshake, FaUserDoctor, FaUserGroup } from "react-icons/fa6";
 import { CgUnavailable } from "react-icons/cg";
 import { TbLivePhoto } from "react-icons/tb";
 import Chart from '../Charts/Chart'
@@ -17,10 +17,13 @@ import BarChartHorizontal from '../Charts/BarChartHorizontal'
 import PieChartWithCenterLabel from '../Charts/PieCenterLabel'
 import ArcDesign from '../Charts/ArcDesign'
 import MinBarSize from '../Charts/MinBarSize'
+import { SiTask } from 'react-icons/si'
 
 const Admin = () => {
   const [data2, setdata2] = useState() //to store other data
   const [selectedprsondata, setselectedperson] = useState()
+  const [alloteddate, setalloteddate] = useState()
+  const [allotedtime, setallotedtime] = useState()
   const data = localStorage.getItem('loggedperson')
   const person = localStorage.getItem('person')    // to protect route when any login to admin and shift to user
   const admindata = JSON.parse(data)
@@ -57,20 +60,32 @@ return (
             <div className="card1 h-28 w-48 mt-2 bg-red-600 rounded"   >
               <div className="appoint flex flex-col items-center gap-3">
                 <h1 className='text-center text-xl font-semibold pt-1'>Total Appointments</h1>
-                <h1 className='text-center text-4xl font-semibold '>{data2?.appointmentdata?.length}</h1>
+                <div className="datacount flex  mt-3 gap-7  ">
+                  <div className='text-black text-4xl'> <SiTask/></div>
+                    <h1 className='font-semibold text-black text-4xl'>{data2?.appointmentdata?.length}</h1>
+                </div>
+               {/* <h1 className='text-center text-4xl font-semibold '>{data2?.appointmentdata?.length}</h1> */}
               </div>
 
             </div>
             <div className="card2 h-28 w-48 mt-2 bg-green-500 rounded" >
               <div className="appoint flex flex-col items-center gap-3">
                 <h1 className='text-center text-xl font-semibold pt-1'>Total Users</h1>
-                <h1 className='text-center text-4xl font-semibold '>{data2?.Userdata?.length}</h1>
+                <div className="datacount flex  mt-3 gap-7  ">
+                  <div className='text-black text-4xl'> <FaUserGroup/> </div>
+                    <h1 className='font-semibold text-black text-4xl'>{data2?.Userdata?.length}</h1>
+                </div>
+                {/* <h1 className='text-center text-4xl font-semibold '>{data2?.Userdata?.length}</h1> */}
               </div>
             </div>
             <div className="card3 h-28 w-48 mt-2 bg-blue-600 rounded"  >
               <div className="appoint flex flex-col items-center gap-3">
                 <h1 className='text-center text-xl font-semibold pt-1'>Total Doctors</h1>
-                <h1 className='text-center text-4xl font-semibold '>{data2?.doctordata?.length}</h1>
+                <div className="datacount flex  mt-3 gap-7  ">
+                  <div className='text-black text-4xl'> <FaUserDoctor /></div>
+                    <h1 className='font-semibold text-black text-4xl'>{data2?.doctordata?.length}</h1>
+                </div>
+                {/* <h1 className='text-center text-4xl font-semibold '>{data2?.doctordata?.length}</h1> */}
               </div>
             </div>
             <div className="card4 h-28 w-48 mt-2 bg-yellow-400 rounded">
@@ -99,6 +114,8 @@ return (
                   <th>Status</th>
                   <th>Alloted Date</th>
                   <th>Alloted Time</th>
+                  <th><MdEdit /></th>
+
                 </tr>
               </thead>
               <tbody className='font-semibold'>
@@ -116,6 +133,7 @@ return (
                     <td>
                       <select name="" id="">
                       { data2?.doctordata?.map((item2,id)=>{
+                       if(item2.department == item.department)
                         return(
                         <option key={id} className={item2.Availability?"bg-green-500":"bg-red-600"} >{item2.firstname+item2.lastname}</option>
                         )
@@ -123,8 +141,11 @@ return (
                       </select>
                     </td>
                     <td>{item.status}</td>
-                    <td>{item.alloteddate}</td>
+                    <td>
+                      <input  type="date" value={alloteddate ? alloteddate : item.alloteddate ? item.alloteddate :""}  onChange={(e)=>setalloteddate(e.target.value)}/>
+                    </td>
                     <td>{item.allotedtime}</td>
+                    <td className=' text-md  text-white  hover:text-blue-800 hover: cursor-pointer'>update</td>
                   </tr>)
                 })}
 
@@ -134,7 +155,10 @@ return (
           </div>
           <div className="pie  border-1 border-red-600 mt-2 mr-2">
             <h1 className='text-black text-center font-semibold '>Total Appointments</h1>
-            <PieChartWithCenterLabel/>
+            <PieChartWithCenterLabel
+            appointments={data2?.appointmentdata}
+
+            />
           </div>
           
           </div>
@@ -256,10 +280,12 @@ return (
           </div>
           <div className="pie1 border-1 border-blue-600 ">
             <h2 className='text-black text-center font-semibold '>Total Doctors </h2>
-            <PieChartWithCenterLabel/></div>
-          <div className="pie2 border-1 border-blue-600  mr-2">
+            <PieChartWithCenterLabel
+            doctors = {data2?.doctordata}
+            /></div>
+          {/* <div className="pie2 border-1 border-blue-600  mr-2">
             <h2 className='text-black text-center font-semibold '>Availables Doctors</h2>
-            <DonutChart/></div>
+            <DonutChart/></div> */}
           
           </div>
           <h1 className='text-green-500 text-xl ml-2  font-semibold inline-block mt-10'>Users</h1>
