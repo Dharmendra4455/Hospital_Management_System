@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.json())
 dotenv.config();
 const Port=process.env.PORT||4001;
-const Mongouri=process.env.MONGODB_URL;
+const Mongouri=process.env.MONGODB_URL2;
 
 import {Doctorroute} from "./Routers/cardroute.js"
 import {serviceroute} from "./Routers/cardroute.js"
@@ -16,7 +16,7 @@ import {route1} from './Routers/Userroute.js'
 import {route2} from './Routers/Userroute.js'
 import {route3} from './Routers/Userroute.js'
 import { Admin_login, Adminroute, Otherdata } from "./Routers/Admin.js";
-import { appointmentdata, Docroute } from "./Routers/Doctor.js";
+import { appointmentdata, appointmentstatus, Docroute } from "./Routers/Doctor.js";
 import { docloginroute } from "./Routers/Doctor.js";
 import { appoints } from "./Routers/appointment.js";
 
@@ -31,6 +31,7 @@ import { appoints } from "./Routers/appointment.js";
  app.use('/admin',Otherdata)
  app.use('/doctor',Docroute)
  app.use('/doctor',appointmentdata)
+ app.use('/doctor',appointmentstatus)
  app.use('/doctor',docloginroute)
  app.use('/user',appoints)
 //DB Connectivity

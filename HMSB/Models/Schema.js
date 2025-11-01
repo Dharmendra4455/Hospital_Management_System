@@ -75,7 +75,7 @@ const Doctor = mongoose.Schema({
 )
 const appointmentsupdate = mongoose.Schema({
     patientstatus:{ type: String, default:"Normal"},
-    rating:Number,
+    healthrate:{type :String},
     description:String,
 })
 const appointments = mongoose.Schema({
@@ -92,7 +92,7 @@ const appointments = mongoose.Schema({
     department: String,
     doctor: String,
     status: { type: String, default: "Pending" },
-     update:[appointmentsupdate],
+    update:[appointmentsupdate],
     appointmentdate: { type: String, default: new Date().toDateString() },
     alloteddate: { type: String, default: "null" },
     allotedtime: { type: String, default: "null" },
