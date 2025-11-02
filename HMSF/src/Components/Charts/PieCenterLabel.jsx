@@ -34,7 +34,41 @@ function PieCenterLabel({ children }) {
   );
 }
 
-export default function PieChartWithCenterLabel() {
+
+export default function PieChartWithCenterLabel({appointments,doctors}) {
+
+  const getdata=()=>{
+    var data =[]
+    var cardiologycount=0
+    var Neurologycount=0
+    var Oncologycount=0
+    var Gastroenterologycount=0
+    const currentdata = doctors ? doctors :appointments
+    for(let i=0 ; i<currentdata?.length ;i++){
+     if(currentdata[i].department=='Cardiology') cardiologycount++
+      // data[i]={value: cardiologycount ,  label: 'Cardiology'}
+     if(currentdata[i].department=='Neurology') Neurologycount++
+      // data[i]={value: Neurologycount ,  label: 'Neurology'}
+     if(currentdata[i].department=='Oncology') Oncologycount++
+      // data[i]={value: Oncologycount ,  label: 'Oncology'}
+     if(currentdata[i].department=='Gastroenterologys')Gastroenterologycount++
+      // data[i]={value: Gastroenterologycount ,  label: 'Gastroenterology'} 
+    }
+   data=[
+     Gastroenterologycount > 0 ? {value: Gastroenterologycount ,  label: 'Gastroenterologys'}:"",
+     Oncologycount > 0 ? {value: Oncologycount ,  label: 'Oncology'}:"",
+     Neurologycount > 0 ? {value: Neurologycount ,  label: 'Neurology'}:"",  
+     cardiologycount > 0 ? {value: cardiologycount ,  label: 'Cardiology'}:""
+   ]
+    return data
+  }
+  const[data ,setdata] =React.useState([])
+
+  React.useEffect(()=>{
+  setdata(getdata())
+ 
+  },[appointments,doctors])
+
   return (
     <PieChart series={[{ data, innerRadius: 80 }]} {...size}>
       <PieCenterLabel>Total Appointments</PieCenterLabel>
