@@ -22,7 +22,7 @@ const StyledText = styled('text')(({ theme }) => ({
   fill: theme.palette.text.primary,
   textAnchor: 'middle',
   dominantBaseline: 'central',
-  fontSize: 20,
+  fontSize: 50,
 }));
 
 function PieCenterLabel({ children }) {
@@ -33,7 +33,6 @@ function PieCenterLabel({ children }) {
     </StyledText>
   );
 }
-
 
 export default function PieChartWithCenterLabel({appointments,doctors}) {
 
@@ -68,10 +67,9 @@ export default function PieChartWithCenterLabel({appointments,doctors}) {
   setdata(getdata())
  
   },[appointments,doctors])
-
   return (
-    <PieChart series={[{ data, innerRadius: 80 }]} {...size}>
-      <PieCenterLabel>Total Appointments</PieCenterLabel>
+    <PieChart series={[{data, innerRadius: 80 }]} {...size}>
+      <PieCenterLabel>{appointments ? appointments?.length : doctors?.length}</PieCenterLabel>
     </PieChart>
   );
 }

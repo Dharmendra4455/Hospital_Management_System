@@ -236,7 +236,7 @@ const Appointmentform = (props) => {
                   <option >Cardiology</option>
                   <option >Neurology</option>
                   <option >Oncology</option>
-                  <option >Dermatology</option>
+                  {/* <option >Dermatology</option> */}
                   <option >Gastroenterologys</option>
                 </select>
               </div>

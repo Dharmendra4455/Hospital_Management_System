@@ -7,39 +7,24 @@ import { PiecewiseColorLegend } from '@mui/x-charts/ChartsLegend';
 import { interpolateObject } from '@mui/x-charts-vendor/d3-interpolate';
 import Box from '@mui/material/Box';
 
-const data =[
+// static for now
+const data =[      
   {
-    "Department": "Dept1",
-    "Time": 35
+    "Department": "Cardiology",
+    "Time": 60
   },
-  {
-    "Department": "Dept2",
-    "Time": 25
-  },
-  {
-    "Department": "Dept3",
-    "Time": 15
-  },
-  {
-    "Department": "Dept4",
-    "Time": 35
-  },
-  {
-    "Department": "Dept5",
+   {
+    "Department": "Gastroenterologys",
     "Time": 45
   },
   {
-    "Department": "Dept6",
-    "Time": 5
+    "Department": "Neurology",
+    "Time": 120
   },
   {
-    "Department": "Dept7",
-    "Time": 75
-  },
-  {
-    "Department": "Dept8",
-    "Time": 90
-  },
+    "Department": "Oncology",
+    "Time": 35
+  }
  
 ]
 
