@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react'
 import DashNavbar from './DashNavbar'
 import { useState } from 'react'
@@ -18,42 +19,75 @@ import { SiTask } from "react-icons/si";
 import { GiProgression } from "react-icons/gi";
 import { MdHome } from "react-icons/md";
 import { GrStatusCritical } from "react-icons/gr";
+import { useRef } from 'react'
 
 
 
 const Doctor = () => {
   const [status, setstatus] = useState("pending")
   const [healthrate, sethealthrate] = useState("")
+  console.log(healthrate)
   const [description, setdescription] = useState("")
   const [selectedprsondata, setselectedperson] = useState()
   const [data3, setdata3] = useState() //to store other data
   const data = localStorage.getItem('loggedperson')
   const person = localStorage.getItem('person')    // to protect route when any login to admin and shift to user
+  const SelectedappointmentUpdate = useRef([])
+  //  console.log(SelectedappointmentUpdate.current)
   const data2 = JSON.parse(data)
-
+console.log(data3)
   const otherdatahandler = async () => {
 
     await axios.get('http://localhost:4000/doctor/appointmentdata')
       .then(res => {
         if (res.data)
           setdata3(res.data)
+        //  console.log(data3)
+       
       })
   }
   useEffect(() => {
     otherdatahandler()
   }, [])
-  // console.log(data3)
+ 
+  // dharmendrapatel123@gmail.com
 
   const Updateshowhandler = (item) => {
     setstatus('pending')    //only used to manage bg color and rating selection of selected profile
     setselectedperson(item)
-    console.log(selectedprsondata?.firstname?.slice(0, 1))
+    if(item.update.length > 0)
+   SelectedappointmentUpdate.current=([...item.update])
+    console.log(SelectedappointmentUpdate.current)
+    // console.log(selectedprsondata?.firstname?.slice(0, 1))
     document.getElementById('my_modal_2').showModal()
   }
   const modalClosehandler = () => {
     document.getElementById('my_modal_2').close()
   }
   const currentdate = new Date().toLocaleDateString()
+
+  const StatusUpdatehandler=async(data)=>{
+    const _id =data._id
+    const statusdata={status,description,healthrate} 
+    if(status && healthrate)
+    SelectedappointmentUpdate.current=([...SelectedappointmentUpdate.current ,{status,description,healthrate}])
+    else{
+      toast.error("Missing details!!")
+      return
+    }
+    console.log(SelectedappointmentUpdate.current)
+    try{
+      const res = await axios.post('http://localhost:4000/doctor/appointmentstatus',{data:SelectedappointmentUpdate.current,id:_id})
+      if(res)
+        toast.success(res.data.message)
+       otherdatahandler() // to refresh status
+    }
+    catch(err){
+      if(err.response)
+        toast.error(err.response.data.message)
+    } 
+   modalClosehandler()
+  }
   return (
     <>
       {data2 && person === 'doctor' ?
@@ -126,7 +160,8 @@ const Doctor = () => {
                   <div className="gnder flex gap-2 items-center w-32 ">
                     <div className="icon text-gray-200 text-2xl">{<IoMdStarOutline />}</div>
                     <div className='text-md'>
-                      {status !== 'pending' ? <select onChange={(e) => { sethealthrate(e.target.value) }} value={healthrate}>
+                      {status !== 'pending' ? <select onChange={(e) =>sethealthrate(e.target.value)} value={healthrate}>
+                        <option value="" className='bg-white'>Select one</option>
                         <option value="0" className='bg-red-600'disabled={status!=='Critical'?true:false}>0  Critical</option>
                         <option value="1" className='bg-red-500'disabled={status!=='Critical'?true:false}>1  Critical</option>
                         <option value="2" className='bg-yellow-600'disabled={status!=='Progress'?true:false}>2  going Progress</option>
@@ -141,13 +176,13 @@ const Doctor = () => {
                     </div>
                   </div>
                   <div >
-                    <textarea placeholder='Description' className="w-36 h-20 bg-white" type='text' />
+                    <textarea placeholder='Description' className="w-36 h-20 bg-white" type='text'  onChange={(e)=>{setdescription(e.target.value)}}/>
                     
                   </div>
                 </div>
                 <div className="flex justify-center ">
-                  <button className="btn mr-5" >Update</button>
-                  <button className="btn ml-5" onClick={modalClosehandler}>Cancle</button>
+                  <button className="btn mr-5" onClick={()=>StatusUpdatehandler(selectedprsondata)} >Update</button>
+                  <button className="btn ml-5" onClick={modalClosehandler}>Cancel</button>
                 </div>
               </div>
             </div>
@@ -161,7 +196,7 @@ const Doctor = () => {
             <div className="card1 h-28 w-48 mt-2 bg-blue-600 rounded"   >
             
               <h1 className='text-center text-xl font-semibold'>Total Appointments</h1>
-              <div className="datacount flex justify-evenly mt-5 text-3xl">
+              <div className="datacount flex justify-evenly mt-5 text-3xl gap-5">
                  <div className='text-black'> <SiTask/></div>
                   <h1 className='font-semibold text-black'>12</h1>
               </div>
@@ -201,7 +236,7 @@ const Doctor = () => {
             <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
             <div className="appintmentchart_container flex justify-between">
               <div className="overflow-x-auto border-black border-2 m-2 w-full">
-                <table className="table table-md  text-black">
+                <table className="table table-lg  text-black">
                   <thead className='text-black'>
                     <tr className='border-black border-2'>
                       <th></th>
@@ -212,6 +247,7 @@ const Doctor = () => {
                       <th>gender</th>
                       <th>Status</th>
                       <th>Update</th>
+                      <th>Status Graph</th>
 
                     </tr>
                   </thead>
@@ -234,7 +270,11 @@ const Doctor = () => {
                         <td className='text-blue-600 cursor-pointer hover:text-blue-700'
                           onClick={() => Updateshowhandler(item)}
                         > <MdModeEditOutline/>Update</td>
-                         <div className='bg-white'> <ColorCustomization /></div>
+                         <div className='bg-white '> 
+                          <ColorCustomization 
+                           data={item}
+                         />
+                         </div>
                       </tr>)
                     })}
 
@@ -249,7 +289,7 @@ const Doctor = () => {
           <DashedLineChart />
           <BiaxialLineChart /> */}
           
-          <ColorCustomization />
+          {/* <ColorCustomization /> */}
         </div>
         : ""}
     </>
