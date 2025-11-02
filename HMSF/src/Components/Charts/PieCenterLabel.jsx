@@ -51,7 +51,7 @@ export default function PieChartWithCenterLabel({appointments,doctors}) {
      if(currentdata[i].department=='Oncology') Oncologycount++
       // data[i]={value: Oncologycount ,  label: 'Oncology'}
      if(currentdata[i].department=='Gastroenterologys')Gastroenterologycount++
-      // data[i]={value: Gastroenterologycount ,  label: 'Gastroenterology'}
+      // data[i]={value: Gastroenterologycount ,  label: 'Gastroenterology'} 
     }
    data=[
      Gastroenterologycount > 0 ? {value: Gastroenterologycount ,  label: 'Gastroenterologys'}:"",
