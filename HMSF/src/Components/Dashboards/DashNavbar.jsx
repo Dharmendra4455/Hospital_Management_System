@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Appointmentform from './Appointmentform'
-import DeleteDoctor from './DeleteDoctor'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+
 
 const DashNavbar = (props) => {
   const[theme,settheme]=useState('bright')
+  const[DeleteDoctormodalshow,setdeletedoctormodal]=useState(false)
+  const[DeleteDoctordata,setdeletedoctordata]=useState({
+    id:'',
+    reason:""
+  })
 
+  // console.log(props.alldata)
   const themehandler=async()=>{
-
     //const theme1=localStorage.getItem('theme')
     
     if(theme=='bright'){
@@ -23,6 +30,25 @@ const DashNavbar = (props) => {
  const logouthandler=()=>{
  localStorage.removeItem('loggedperson')
 } 
+const deleteaccounthandler =async()=>{
+const {id ,reason} = DeleteDoctordata 
+if(id ||reason){
+ 
+if(confirm("Confirm to Delete Account!!"))
+ { 
+  try{
+    const res = await axios.delete(`http://localhost:4000/admin/deletedoctor:${id.trim()}`)
+     setdeletedoctormodal(false)
+    props.refresh_Doclist()
+     toast.success("Account deleted Successfully")
+ }catch(err){
+     toast.error(err.response.data.message)
+
+ }
+}
+}
+else{ return toast.error("missing details!!") }
+}
 
   return (
     <>  
@@ -56,19 +82,23 @@ const DashNavbar = (props) => {
         </dialog> */}
 
         
-        {props.user==='Admin' ?<li  className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded  hover:bg-zinc-400'>Delete Doctor</li>:""}
+        {props.user==='Admin' ?<li  className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded  hover:bg-zinc-400' onClick={()=>{
+          setdeletedoctormodal(true);
+        }
+        }>Delete Doctor</li>:""}
         {/* {props.user==='Admin' ?<li  className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded  hover:bg-zinc-400'>Create Schedule</li>:""} */}
-        <li className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded text-[18px] hover:bg-zinc-300'>Profile</li>
+        {/* <li className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded text-[18px] hover:bg-zinc-300'>Profile</li> */}
         <NavLink to='/'><li className='border-zinc-600 border-2 pr-2 pl-2 pt-0.5 pb-0.5 mb-2 rounded text-[18px] bg-red-600 hover:bg-red-700' onClick={logouthandler}>Logout</li></NavLink>
       </ul>
     </div>
   
    {props.user==='User'? <a className="btn btn-ghost text-[15px] " onClick={()=>document.getElementById('my_modal_1').showModal()}>Appointment</a>: ""} 
    {/* <a className="btn btn-ghost text-xl">Dashboard</a> */}
-  
 
      <dialog id="my_modal_1" className="modal">
-    <Appointmentform  data={props.user}/>
+    <Appointmentform  
+    data={props.user}
+    refresh={()=>props.refresh_Doclist()}/>
     </dialog>
   </div>
   
@@ -82,6 +112,7 @@ const DashNavbar = (props) => {
   {/* this hidden checkbox controls the state */}
   <input type="checkbox"  onClick={()=>{themehandler()}} className="theme-controller" value="synthwave" />
 
+ 
   {/* sun icon */}
   <svg
     className="swap-off h-5 w-5 fill-current"
@@ -104,6 +135,48 @@ const DashNavbar = (props) => {
     </div>
   </div>
 </div>
+
+  {DeleteDoctormodalshow && (
+        <>
+        <div className="allocationModal w-full h-full flex justify-center items-center absolute z-10 top-0 bg-black/80 backdrop-blur-sm">
+         
+          <div className="contain w-fit h-fit bg-zinc-400 rounded relative ">
+            <div className="close text-3xl text-red-600 right-0 top-0 absolute pt-1 pr-4 "
+             onClick={()=>setdeletedoctormodal(false)}>
+              ✕
+             </div>
+           <div className="formsection p-2  text-lg">
+            <h1 className='text-2xl text-center font-bold'>Remove Doctor</h1>
+            {/* <div className="name flex justify-around items-center gap-5 mt-10">
+              <label className='text-xl'>Doctor Email:</label>
+
+            </div> */}
+            <div className="allocateddate flex justify-around items-center gap-5 mt-5">
+              <label className='text-xl w-12'>Id:</label>
+              <input type="text"  autoFocus   onChange={(e)=>setdeletedoctordata((pre)=>({...pre ,id:e.target.value}))}
+              className='border-2 pr-2 border-black outline-0 w-58 py-2 rounded pl-2'
+              placeholder='Doctor_ID'
+              />
+            </div>
+            <div className="allocatedtime flex justify-around items-center gap-5 mt-5">
+              <label className='text-xl w-12'>Reason:</label>
+              <textarea  
+              placeholder='Reason of Delete Account'
+              className='border-2 pr-2 border-black outline-0 w-58 py-2 rounded pl-2'
+              onChange={(e)=>setdeletedoctordata((pre)=>({...pre ,email:e.target.value}))}
+              />
+            </div>
+
+            <button className=' mt-2 w-full text-center bg-red-500 text-white outline-0 p-1.5 font-bold rounded text-xl hover:bg-red-700 hover:cursor-pointer '
+            onClick={deleteaccounthandler}
+            >Delete Account</button>
+           </div>
+           
+            </div>
+        </div>
+        </>
+      )}
+
     </>
   )
 }

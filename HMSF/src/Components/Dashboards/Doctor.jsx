@@ -26,7 +26,7 @@ import { useRef } from 'react'
 const Doctor = () => {
   const [status, setstatus] = useState("pending")
   const [healthrate, sethealthrate] = useState("")
-  console.log(healthrate)
+  // console.log(healthrate)
   const [description, setdescription] = useState("")
   const [selectedprsondata, setselectedperson] = useState()
   const [data3, setdata3] = useState() //to store other data
@@ -35,20 +35,23 @@ const Doctor = () => {
   const SelectedappointmentUpdate = useRef([])
   //  console.log(SelectedappointmentUpdate.current)
   const data2 = JSON.parse(data)
-console.log(data3)
-  const otherdatahandler = async () => {
+// console.log(data3) 
+  const otherdatahandler = async (doc_id) => {
 
-    await axios.get('http://localhost:4000/doctor/appointmentdata')
+    await axios.get(`http://localhost:4000/doctor/own_appointments?id=${doc_id}`)
       .then(res => {
         if (res.data)
           setdata3(res.data)
-        //  console.log(data3)
        
       })
   }
   useEffect(() => {
-    otherdatahandler()
-  }, [])
+    const doc_id =JSON.parse(localStorage.getItem('loggedperson')).data.id
+    if(doc_id)
+    otherdatahandler(doc_id)
+
+}, [])
+
  
   // dharmendrapatel123@gmail.com
 
@@ -57,30 +60,37 @@ console.log(data3)
     setselectedperson(item)
     if(item.update.length > 0)
    SelectedappointmentUpdate.current=([...item.update])
-    console.log(SelectedappointmentUpdate.current)
+    // console.log(SelectedappointmentUpdate.current)
     // console.log(selectedprsondata?.firstname?.slice(0, 1))
     document.getElementById('my_modal_2').showModal()
   }
-  const modalClosehandler = () => {
+  const modalClosehandler = () => { 
     document.getElementById('my_modal_2').close()
   }
   const currentdate = new Date().toLocaleDateString()
 
   const StatusUpdatehandler=async(data)=>{
-    const _id =data._id
-    const statusdata={status,description,healthrate} 
+    const appointment_id =data._id
+    const doctor_id = JSON.parse(localStorage.getItem('loggedperson')).data.id
     if(status && healthrate)
     SelectedappointmentUpdate.current=([...SelectedappointmentUpdate.current ,{status,description,healthrate}])
     else{
       toast.error("Missing details!!")
       return
     }
-    console.log(SelectedappointmentUpdate.current)
+    let Doc_Av = true
+   if(data3.length > 1) 
+    Doc_Av=false
     try{
-      const res = await axios.post('http://localhost:4000/doctor/appointmentstatus',{data:SelectedappointmentUpdate.current,id:_id})
+      const res = await axios.post('http://localhost:4000/doctor/appointmentstatus',{data:SelectedappointmentUpdate.current,Doctor_id:doctor_id,appointment_id:appointment_id,Doc_Availabiity:Doc_Av})
       if(res)
         toast.success(res.data.message)
-       otherdatahandler() // to refresh status
+       SelectedappointmentUpdate.current =[]
+
+      // to refresh status
+      const doc_id = JSON.parse(localStorage.getItem('loggedperson')).data.id
+      if (doc_id)
+        otherdatahandler(doc_id)
     }
     catch(err){
       if(err.response)
@@ -198,14 +208,14 @@ console.log(data3)
               <h1 className='text-center text-xl font-semibold'>Total Appointments</h1>
               <div className="datacount flex justify-evenly mt-5 text-3xl gap-5">
                  <div className='text-black'> <SiTask/></div>
-                  <h1 className='font-semibold text-black'>12</h1>
+                  <h1 className='font-semibold text-black'>{data3?.length}</h1>
               </div>
             </div>
             <div className="card2 h-28 w-48 mt-2 bg-yellow-500 rounded" >
               <h1 className='text-center text-xl font-semibold'>Progress</h1>
               <div className="progresscount flex justify-evenly mt-5 text-3xl">
                <div className='text-black'>   <GiProgression /></div>
-                  <h1 className='font-semibold text-black'>2</h1>
+                  <h1 className='font-semibold text-black'>{data3?.find((item)=>item.status === 'Progress') ? Array(data3?.find((item)=>item.status === 'Progress')).length : 0}</h1>
               </div>
             </div>
             <div className="card3 h-28 w-48 mt-2 bg-red-600 rounded" >
@@ -213,7 +223,7 @@ console.log(data3)
               <div className="dischargecount flex justify-evenly mt-5 text-3xl">
               
                  <div className='text-black'><GrStatusCritical /></div>
-                  <h1 className='font-semibold text-black'>1</h1>
+                  <h1 className='font-semibold text-black'>{data3?.find((item)=>item.status === 'Critical') ? Array(data3?.find((item)=>item.status === 'Critical')).length : 0}</h1>
               
               </div>
             </div>
@@ -222,7 +232,7 @@ console.log(data3)
               <div className="dischargecount flex justify-evenly mt-5 text-3xl">
               
                  <div className='text-black'> <MdHome /></div>
-                  <h1 className='font-semibold text-black'>2</h1>
+                  <h1 className='font-semibold text-black'>{data3?.find((item)=>item.status === 'Discharged') ? Array(data3?.find((item)=>item.status === 'Discharged')).length : 0}</h1>
                 
               </div>
             </div>
@@ -267,7 +277,8 @@ console.log(data3)
                           "text-green-700"
                         }
                         >{item.status}</td>
-                        <td className='text-blue-600 cursor-pointer hover:text-blue-700'
+
+                        <td className={item.status==='Discharged' ? 'pointer-events-none text-zinc-600' : 'text-blue-600 cursor-pointer hover:text-blue-700'}
                           onClick={() => Updateshowhandler(item)}
                         > <MdModeEditOutline/>Update</td>
                          <div className='bg-white '> 

@@ -40,7 +40,7 @@ const Appointmentform = (props) => {
   const doctor_detail = { firstname, lastname, dob, email, password, gender, contact, address, city, state, department, salary, dayfrom, dayto, timefrom, timeto}
   // alert(doctor_detail)
   const submithandler = () => {
-    console.log(doctor_detail)
+    // console.log(doctor_detail)
     if (props.data === 'Admin') {
       if (firstname && dob && email && password && gender && contact && address && city && state && department && salary && dayfrom && dayto && timefrom && timeto) {
         if (contact.length == 10) {
@@ -67,11 +67,12 @@ const Appointmentform = (props) => {
                 setdayto("")
                 settimefrom("")
                 settimeto("")
-                 closehandler()
+                props.refresh()
+                closehandler()
 
               })
               .catch(error => {
-                console.error('API error:', error);
+                toast.error('API error:', error);
                 if (error.response && error.response.data && error.response.data.message) {
                   toast.error(error.response.data.message);
                 } else {
@@ -93,16 +94,16 @@ const Appointmentform = (props) => {
       
     }
     else {
-      alert(firstname + Gfirstname + dob + email + gender + contact + address + city + state + department + doctor)
+      // alert(firstname + Gfirstname + dob + email + gender + contact + address + city + state + department + doctor)
 
-      if (firstname && Gfirstname && dob && email && gender && contact && address && city && state && department && doctor) {
+      if (firstname && Gfirstname && dob && email && gender && contact && address && city && state && department) {
         const appointment_detail = { firstname, lastname, dob, email, gender, contact, address, city, state, department, doctor, status, appointmentdate, alloteddate, allotedtime, description }
         if (contact.length == 10) {
 
 
           Axios.post('http://localhost:4000/user/appointment', appointment_detail)
             .then(response => {
-              console.log('API response:', response.data);
+              // console.log('API response:', response.data);
               toast.success(response.data.message || 'Appointment created!');
               setfirstname("")
               setlastname("")
@@ -114,9 +115,7 @@ const Appointmentform = (props) => {
               setcity("")
               setstate("")
               setdepartment("")
-              setdoctor("")
                closehandler()
-
             })
             .catch(error => {
               console.error('API error:', error);
@@ -161,7 +160,8 @@ const Appointmentform = (props) => {
   }
   return (
     <>
-      {close ? "" : <div className="modal-box bg-white">
+      {close ? "" :
+       <div className="modal-box bg-white">
         {props.data === "User" ? <h3 className="font-bold text-lg text-center">Appointment Request</h3> : <h3 className="font-bold text-lg text-center">Doctor's Details</h3>}
 
         <button onClick={closehandler} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 ">✕</button>
@@ -241,17 +241,18 @@ const Appointmentform = (props) => {
                 </select>
               </div>
               {props.data === "User" ?
-                <div className='doct'>
-                  <div className="state mt-2 ml-6 inline-block ">Doctors</div>
-                  <select className="lastname border p-1 ml-5 rounded w-[190px] " value={doctor} onChange={(e) => { setdoctor(e.target.value) }}>
-                    <option >Select Doctor</option>
-                    <option >Dr.Smith</option>
-                    <option >Dr.Rohan Mehra</option>
-                    <option >Dr.Rupali</option>
-                    <option >Dr.Anjay</option>
-                    <option >Dr.Patel</option>
-                  </select>
-                </div>
+                // <div className='doct'>
+                //   <div className="state mt-2 ml-6 inline-block ">Doctors</div>
+                //   <select className="lastname border p-1 ml-5 rounded w-[190px] " value={doctor} onChange={(e) => { setdoctor(e.target.value) }}>
+                //     <option >Select Doctor</option>
+                //     <option >Dr.Smith</option>
+                //     <option >Dr.Rohan Mehra</option>
+                //     <option >Dr.Rupali</option>
+                //     <option >Dr.Anjay</option>
+                //     <option >Dr.Patel</option>
+                //   </select>
+                // </div>
+                ""
                 :
                 <div className='salary'>
                   <div className="state mt-2 ml-6  ">Salary</div>
