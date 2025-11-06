@@ -1,0 +1,3 @@
+.appointmentTable::-webkit-scrollbar{
+    display: none;
+}

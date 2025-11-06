@@ -1,5 +1,7 @@
 import { appointment, doctor } from "../Models/Schema.js"
 import bcryptjs from 'bcryptjs'
+import {ObjectId} from 'mongodb'
+import { deletedoctor } from "../Routers/Admin.js";
 export const doctors=async (req,res)=>{
   try{
     const{ firstname,
@@ -63,7 +65,7 @@ export const doctors=async (req,res)=>{
           const passcheck=await bcryptjs.compare(password,user.password)
          if(passcheck)
           {
-           res.status(200).json({message:"Login Successfully",data:{firstname:user.firstname,lastname:user.lastname,email:user.email}})
+           res.status(200).json({message:"Login Successfully",data:{id:user._id,firstname:user.firstname,lastname:user.lastname,email:user.email}})
           }
          else
           {
@@ -84,5 +86,32 @@ export const doctors=async (req,res)=>{
 export const appointmentdatas=async(req,res)=>{
   const appointmentdata=await appointment.find({})
   res.send(appointmentdata)
+}
+export const Doc_data=async(req,res)=>{
+  const doc_id =req.query.id;
+  console.log(doc_id)
+  const appointmentdata=await appointment.find({allocateddoctor : new ObjectId(doc_id)})
+  res.send(appointmentdata)
+}
+
+
+export const deletedoctorAccount=async(req,res)=>{
+const doc_id=req.params.id.slice(1)
+//  console.log(doc_id)
+try{
+const isallocated = await appointment.find({allocateddoctor:doc_id}) 
+if(isallocated.length > 0){ 
+  res.status(401).json({message:"First Unallocate Doctor!!"})
+}
+else{
+  const deleteddoc=await doctor.findOneAndDelete({_id:new ObjectId(doc_id)})
+  if (!deleteddoc) {
+      return res.status(404).json({ message: 'account not found' });
+    }
+   return res.status(201).json({message :"account deleted Successfully"})
+}
 
 }
+catch(err){
+res.status(401).json({message:"account deleted !!"})
+}}

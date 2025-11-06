@@ -15,7 +15,7 @@ import { route } from "./Routers/Userroute.js";
 import {route1} from './Routers/Userroute.js'
 import {route2} from './Routers/Userroute.js'
 import {route3} from './Routers/Userroute.js'
-import { Admin_login, Adminroute, Otherdata } from "./Routers/Admin.js";
+import { Admin_login, Adminroute, appointmentupdate, deletedoctor, Otherdata } from "./Routers/Admin.js";
 import { appointmentdata, appointmentstatus, Docroute } from "./Routers/Doctor.js";
 import { docloginroute } from "./Routers/Doctor.js";
 import { appoints } from "./Routers/appointment.js";
@@ -29,6 +29,8 @@ import { appoints } from "./Routers/appointment.js";
  app.use('/admin',Adminroute)  //for New admin signup
  app.use('/admin',Admin_login)
  app.use('/admin',Otherdata)
+ app.use('/admin',appointmentupdate)
+ app.use('/admin',deletedoctor)
  app.use('/doctor',Docroute)
  app.use('/doctor',appointmentdata)
  app.use('/doctor',appointmentstatus)

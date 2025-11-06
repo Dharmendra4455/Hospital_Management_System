@@ -38,7 +38,7 @@ export const admin_login=async(req,res)=>{
         if(ispass)
         res.status(200).json({
             message:"Login Successfully",
-            data:{first:data.firstname,last:data.lastname,email:data.email},
+            data:{id:data._id,firstname:data.firstname,lastname:data.lastname,email:data.email},
            
             })
         else 

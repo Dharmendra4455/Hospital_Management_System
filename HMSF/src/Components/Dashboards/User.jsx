@@ -10,9 +10,8 @@ const User = () => {
   const person=localStorage.getItem('person')
   const data2=JSON.parse(data)
 
- useEffect(async()=>{
-  // Pending Task
-     await axios.get('http://localhost:4000/user/otherdata',{
+  const gettask =async()=>{
+        await axios.get('http://localhost:4000/user/otherdata',{
       params:{
           email:data2.data.email
       }
@@ -21,6 +20,10 @@ const User = () => {
         if(res.data)
           setotherdata(res.data)
       })
+  }
+ useEffect(()=>{
+  gettask()// Pending Task
+ 
  },[])
  console.log(otherdata)
   return (

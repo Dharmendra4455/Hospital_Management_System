@@ -29,7 +29,7 @@ const getcolor =()=>{
     if(status == 'Good') return 'lightgreen'
     if(status == 'Discharged') return 'green'
 }
-  console.log(data)
+  // console.log(data)
   return (
     <Stack sx={{ width: '100%', maxWidth:300 }}>   
       <SparkLineChart data={getvalues()} color={getcolor} {...settings} />
