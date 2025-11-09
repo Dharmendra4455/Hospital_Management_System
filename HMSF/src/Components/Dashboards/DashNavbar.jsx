@@ -39,7 +39,7 @@ if(confirm("Confirm to Delete Account!!"))
   try{
     const res = await axios.delete(`http://localhost:4000/admin/deletedoctor:${id.trim()}`)
      setdeletedoctormodal(false)
-    props.refresh_Doclist()
+     props.refresh_Doclist()
      toast.success("Account deleted Successfully")
  }catch(err){
      toast.error(err.response.data.message)
@@ -100,7 +100,7 @@ else{ return toast.error("missing details!!") }
     data={props.user}
     Appointmentrefresh={ ()=>props.appointmentrefresh()}
     CreateDocrefresh={ ()=>props.refresh_Doclist()}
-    useremail={props.data.data.email}
+    useremail={props.data.data.email} 
     />
     </dialog>
   </div>

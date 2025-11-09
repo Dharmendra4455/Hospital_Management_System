@@ -21,7 +21,6 @@ export const doctors=async (req,res)=>{
       timefrom,
       timeto}=req.body
 
-    console.log('Received body:', req.body);
     const exist= await doctor.findOne({email})
     if(exist){
       // console.log('User already exists:', email);
@@ -48,7 +47,7 @@ export const doctors=async (req,res)=>{
       Availabletimeto:timeto,
     });
     await data.save()
-    console.log('Doctor saved:', data);
+    // console.log('Doctor saved:', data);
     return res.status(200).json({message:"Account Created Successfully",data})
   }}
   catch(err){
