@@ -21,7 +21,6 @@ const getvalues =()=>{
    }
    return val
   }
-
 const getcolor =()=>{
    const status = data.status
     if(status == 'Critical') return 'red'

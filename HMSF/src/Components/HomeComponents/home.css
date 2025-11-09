@@ -1,0 +1,24 @@
+.scrollhidden{ 
+    animation: Linearanimation 25s linear infinite;
+   
+}
+.scrollhidden:hover{
+animation-play-state: paused;
+}
+.hidescroll{
+   display: flex;
+   overflow: auto;
+   margin-top: 4px;
+   margin-left: 20px;
+   scrollbar-width: none;
+}
+.hidescroll::-webkit-scrollbar{
+    display: none;
+   
+}
+ /* Keyframes for marquee animation */
+@keyframes Linearanimation 
+  {
+   0% { transform: translateX(0); }
+   100% { transform: translateX(-25%); }
+ }

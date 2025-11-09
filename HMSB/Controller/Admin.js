@@ -31,22 +31,26 @@ catch(err){
 
 export const admin_login=async(req,res)=>{
      const{email,password}=req.body
-    
+    try{
      const data=await admin.findOne({email})
     if(data){
         const ispass=await bcrypt.compare(password,data.password)
         if(ispass)
-        res.status(200).json({
+        { res.status(200).json({
             message:"Login Successfully",
             data:{id:data._id,firstname:data.firstname,lastname:data.lastname,email:data.email},
            
-            })
+            })}
         else 
-         res.status(200).json({message:"Email or Password Wrong!!"})
+         res.status(401).json({message:"Invalid email or password !!"})
     }
     else{
-        res.status(200).json({message:"Email or Password Wrong!!"})
+        res.status(401).json({message:"Invalid email or password !!"})
     }
+}
+catch(err){
+   res.status(500).json({message:"Internal Server Error !!"})
+}
 }
 
 export const otherdata=async(req,res)=>{

@@ -246,7 +246,7 @@ const Doctor = () => {
             <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
             <div className="appintmentchart_container flex justify-between">
               <div className="overflow-x-auto border-black border-2 m-2 w-full">
-                <table className="table table-lg  text-black">
+                <table className="table table-sm  text-black">
                   <thead className='text-black'>
                     <tr className='border-black border-2'>
                       <th></th>
@@ -282,9 +282,12 @@ const Doctor = () => {
                           onClick={() => Updateshowhandler(item)}
                         > <MdModeEditOutline/>Update</td>
                          <div className='bg-white '> 
-                          <ColorCustomization 
+                          {/* <ColorCustomization 
                            data={item}
-                         />
+                         /> */}
+                          <BiaxialLineChart 
+                           data={item}
+                          />
                          </div>
                       </tr>)
                     })}
@@ -299,7 +302,7 @@ const Doctor = () => {
           {/* <SimpleAreaChart />
           <DashedLineChart />
           <BiaxialLineChart /> */}
-          
+         
           {/* <ColorCustomization /> */}
         </div>
         : ""}

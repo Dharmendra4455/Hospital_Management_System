@@ -8,7 +8,7 @@ const Appointmentform = (props) => {
   const [Gfirstname, setGfirstname] = useState("")
   const [Glastname, setGlastname] = useState("")
   const [dob, setdob] = useState("")
-  const [email, setemail] = useState("")
+  const [email, setemail] = useState(props.data === "User" ?  props.useremail :'')
   const [password, setpassword] = useState("")
   const [conformpassword, setconformpassword] = useState("")
   const [gender, setgender] = useState("")
@@ -32,15 +32,14 @@ const Appointmentform = (props) => {
   const [timefrom, settimefrom] = useState("")
   const [timeto, settimeto] = useState("")
 
-
+// console.log(props.refresh)
   const [close, setclose] = useState(false)
-
 
   // console.log(firstname+dob+email+gender+contact+address+city+state+department+salary)    
   const doctor_detail = { firstname, lastname, dob, email, password, gender, contact, address, city, state, department, salary, dayfrom, dayto, timefrom, timeto}
   // alert(doctor_detail)
   const submithandler = () => {
-    // console.log(doctor_detail)
+   
     if (props.data === 'Admin') {
       if (firstname && dob && email && password && gender && contact && address && city && state && department && salary && dayfrom && dayto && timefrom && timeto) {
         if (contact.length == 10) {
@@ -48,7 +47,7 @@ const Appointmentform = (props) => {
           if (password === conformpassword) {
             Axios.post('http://localhost:4000/doctor/signup', doctor_detail)
               .then(response => {
-                console.log('API response:', response.data);
+                // console.log('API response:', response.data);
                 toast.success(response.data.message || 'Doctor created!');
                 setfirstname("")
                 setlastname("")
@@ -67,7 +66,7 @@ const Appointmentform = (props) => {
                 setdayto("")
                 settimefrom("")
                 settimeto("")
-                props.refresh()
+                props.data === "User" ? props.Appointmentrefresh() :props.CreateDocrefresh()
                 closehandler()
 
               })
@@ -94,13 +93,13 @@ const Appointmentform = (props) => {
       
     }
     else {
-      // alert(firstname + Gfirstname + dob + email + gender + contact + address + city + state + department + doctor)
-
-      if (firstname && Gfirstname && dob && email && gender && contact && address && city && state && department) {
-        const appointment_detail = { firstname, lastname, dob, email, gender, contact, address, city, state, department, doctor, status, appointmentdate, alloteddate, allotedtime, description }
+      // setemail(props.useremail)
+      //  alert(firstname + Gfirstname + dob + props.useremail + gender + contact + address + city + state + department + doctor)
+      if (firstname && Gfirstname && dob && props.useremail && gender && contact && address && city && state && department) {
+        const appointment_detail = { firstname, lastname, dob, email:props.useremail, gender, contact, address, city, state, department, doctor, status, appointmentdate, alloteddate, allotedtime, description }
         if (contact.length == 10) {
 
-
+        //  console.log(appointment_detail)
           Axios.post('http://localhost:4000/user/appointment', appointment_detail)
             .then(response => {
               // console.log('API response:', response.data);
@@ -180,18 +179,38 @@ const Appointmentform = (props) => {
             <div className='text-md mt-4'>DateOfBirth<sup className='text-red-600 text-xl'>*</sup></div>
             <input className="first border p-1 rounded w-[400px]" required type='date' onChange={(e) => { setdob(e.target.value) }} ></input>
             <div className='text-md mt-4'>Email<sup className='text-red-600 text-xl'>*</sup></div>
-            <input className="first border p-1 rounded w-[400px]" required value={email} placeholder="xyz@gmail.com" onChange={(e) => { setemail(e.target.value) }} ></input>
+            <input 
+            className={props.data === "User" ?
+               "first border p-1 rounded w-[400px] bg-black/30 pointer-events-none" : 
+               "first border p-1 rounded w-[400px]"} 
+            required 
+            value={props.data === "User" ? props.useremail : email} 
+            placeholder="xyz@gmail.com" 
+            onChange={(e) => { setemail(e.target.value) }} 
+            />
 
             {props.data === 'Admin' ?
               <div className="password mt-2">
                 <label className='text-md mt-5'>Password<sup className='text-red-600 text-xl '>*</sup></label>
                 <label className=" flex ">
-                  <input className="first border p-1 rounded" required type='password' value={password} onChange={(e) => {
-                    setpassword(e.target.value)
-                  }}></input>
+                  <input 
+                  className="first border p-1 rounded" 
+                  required 
+                  type='password' 
+                  value={password} onChange={(e) => {
+                  setpassword(e.target.value)
+                  }}
+                  />
 
-                  <input className="lastname border p-1 ml-5 rounded" type='text' value={conformpassword} onChange={(e) => { setconformpassword(e.target.value) }} placeholder='Conform Password' ></input>
-                </label></div> : ""}
+                  <input 
+                  className="lastname border p-1 ml-5 rounded"
+                  type='text'
+                  value={conformpassword}
+                  onChange={(e) => { setconformpassword(e.target.value) }}
+                  placeholder='Conform Password' ></input>
+                </label>
+                </div> 
+                : ""}
 
 
             <div className="gendercontact flex justify-start  gap-4 mt-2">
@@ -204,21 +223,41 @@ const Appointmentform = (props) => {
                   <option value='OTHER'>OTHER</option>
                 </select>
               </div>
+             
               <div className="contact">
                 <div className="contact  ml-1">Contact No.s<sup className='text-red-600 text-xl'  >*</sup></div>
-                <input type="tel" placeholder='00000-00000' className=" border p-1 rounded" required value={contact} onChange={(e) => { setcontact(e.target.value) }} />
+                <input 
+                type="tel" 
+                placeholder='00000-00000'
+                className=" border p-1 rounded" 
+                required value={contact} 
+                onChange={(e) => { setcontact(e.target.value) }} />
               </div>
             </div>
+            
             <div className='text-md mt-4'>Address<sup className='text-red-600 text-xl'>*</sup></div>
-            <input className="first border p-1 rounded w-[400px]" type='text' required value={address} onChange={(e) => { setaddress(e.target.value) }} ></input>
+            <input className="first border p-1 rounded w-[400px]" 
+            type='text'
+            required value={address}
+            onChange={(e) => { setaddress(e.target.value) }} 
+            />
+
             <div className="citystate flex justify-start">
               <div className="city">
                 <div className="city mt-2 ">City</div>
-                <input className="first border p-1 rounded" required value={city} onChange={(e) => { setcity(e.target.value) }} ></input>
+                <input
+                 className="first border p-1 rounded"
+                 required 
+                 value={city} 
+                 onChange={(e) => { setcity(e.target.value) }} 
+                 />
               </div>
               <div className="state">
                 <div className="state mt-2 ml-6 ">State/Provinces</div>
-                <select className="lastname border p-1 ml-5 rounded w-[190px]" value={state} onChange={(e) => { setstate(e.target.value) }} >
+                <select 
+                className="lastname border p-1 ml-5 rounded w-[190px]" 
+                value={state} 
+                onChange={(e) => { setstate(e.target.value) }} >
                   <option >Select State</option>
                   <option >Andhra Pradesh</option>
                   <option>Assam</option>
@@ -231,7 +270,10 @@ const Appointmentform = (props) => {
             <div className="deptdoc flex flex-start">
               <div className="dept">
                 <div className="state mt-2 ">Department</div>
-                <select className="lastname border p-1 rounded w-[190px]" value={department} onChange={(e) => { setdepartment(e.target.value) }} >
+                <select 
+                className="lastname border p-1 rounded w-[190px]" 
+                value={department} 
+                onChange={(e) => { setdepartment(e.target.value) }} >
                   <option >Select Department</option>
                   <option >Cardiology</option>
                   <option >Neurology</option>
@@ -256,17 +298,28 @@ const Appointmentform = (props) => {
                 :
                 <div className='salary'>
                   <div className="state mt-2 ml-6  ">Salary</div>
-                  <input type="text" className=" border p-1 rounded ml-5" required value={salary} onChange={(e) => { setsalary(e.target.value) }} />
+                  <input 
+                  type="text" 
+                  className=" border p-1 rounded ml-5" 
+                  required 
+                  value={salary} 
+                  onChange={(e) => { setsalary(e.target.value) }} />
                 </div>}
             </div>
             {props.data === 'Admin' ?
               <div className="from mt-2">
                 <label className='text-md mt-5'>Available Days<sup className='text-red-600 text-xl '>*</sup></label>
                 <label className=" flex justify-between">
-                  <input className="first border p-1 rounded w-36" placeholder='Monday' required type='text' value={dayfrom} onChange={(e) => {
+                  <input 
+                  className="first border p-1 rounded w-36" 
+                  placeholder='Monday' 
+                  required type='text' 
+                  value={dayfrom} 
+                  onChange={(e) => {
                     setdayfrom(e.target.value)
-                  }}>
-                  </input>
+                  }}
+                  />
+                 
                   <h2 >TO</h2>
                   <input className="to border p-1 ml-5 rounded w-36" type='text'value={dayto} onChange={(e) => { setdayto(e.target.value) }} placeholder='Friday ' ></input>
                 </label></div> : ""}
@@ -274,12 +327,25 @@ const Appointmentform = (props) => {
               <div className="from mt-2">
                 <label className='text-md mt-5'>Available Timing<sup className='text-red-600 text-xl '>*</sup></label>
                 <label className=" flex justify-between">
-                  <input className="first border p-1 rounded w-36" placeholder='10:30 AM' required type='text' value={timefrom} onChange={(e) => {
+                  <input 
+                  lassName="first border p-1 rounded w-36" 
+                  placeholder='10:30 AM' 
+                  required 
+                  type='text' 
+                  value={timefrom} 
+                  onChange={(e) => {
                     settimefrom(e.target.value)
-                  }}>
-                  </input>
+                  }}
+                  />
+ 
                   <h2 >TO</h2>
-                  <input className="to border p-1 ml-5 rounded w-36" type='text' value={timeto} onChange={(e) => { settimeto(e.target.value) }} placeholder='5:00 PM ' ></input>
+                  <input 
+                  className="to border p-1 ml-5 rounded w-36" 
+                  type='text' 
+                  value={timeto} 
+                  onChange={(e) => { settimeto(e.target.value) }} 
+                  placeholder='5:00 PM ' 
+                  />
                 </label></div> : ""}
             <input type="checkbox" className='mt-4' required value={checkbox} onChange={(e) => { setcheckbox(e.target.checked) }} />
             <span className='ml-2 text-sm'>All details are Correct and Verified</span>

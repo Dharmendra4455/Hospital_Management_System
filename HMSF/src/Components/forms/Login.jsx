@@ -15,7 +15,6 @@ const Login = (props) => {
 
   
   useEffect(()=>{
-  document.getElementById('my_modal_3').showModal()
   loggedpersonhandler()
 },[])
 
@@ -46,9 +45,7 @@ const Login = (props) => {
   //   props.user=res.data.data.firstname
    })
    .catch(err=>{
-
-    toast.error("Internal Server Error!!");
-    toast.error("Login failed!!");
+     toast.error(err.response.data.message)
    })
  }
 
@@ -57,9 +54,11 @@ const Login = (props) => {
    {loggeduser?<Navigate to='/userdashboard'/>:loggeddoctor?<Navigate to='/doctordashboard'/>:loggedadmin?<Navigate to='/admindashboard'/>:""}
 {/* You can open the modal using document.getElementById('ID').showModal() method */}
 {/* <button className="btn" onClick={()=>document.getElementById('my_modal_3').showModal()}>open modal</button> */}
-<dialog id="my_modal_3" className="modal">
-  <div className="bg-white p-5 rounded relative">
-    <form method="dialog" >
+
+{/* <dialog id="my_modal_3" className="modal"> */}
+<div className='absolute w-full h-full flex justify-center items-center bg-gradient-to-r from-pink-800 to to-blue-700/80  '>
+  <div className="bg-white p-5 rounded  relative">
+    <form method="dialog"  >
       {/* if there is a button in form, it will close the modal */}
      <NavLink to='/'>
      <button className="btn btn-sm bg-white btn-ghost absolute right-[2%] top-[2%] text-black">✕</button>
@@ -94,7 +93,8 @@ const Login = (props) => {
   </p> :"" } 
    </div>
   </div>
-</dialog>
+  </div>
+{/* </dialog> */}
 
    </>
   )

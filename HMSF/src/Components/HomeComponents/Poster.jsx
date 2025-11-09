@@ -1,6 +1,11 @@
 import React, { useEffect ,useState} from 'react'
 import { Navigate, NavLink } from 'react-router-dom'
+import {toast} from 'react-toastify'
 import axios from 'axios'
+import img1 from '../../assets/img1.avif'
+import img2 from '../../assets/img2.avif'
+import img3 from '../../assets/img3.jpg'
+import img4 from '../../assets/img4.avif'
 const Poster = (props) => {
    const [theme,settheme]=useState()
    const [close, setclose] = useState(false)
@@ -23,7 +28,12 @@ const Poster = (props) => {
    const data={firstname,lastname,Dateofbirth,email,password}
    axios.post("http://localhost:4000/user/signup",data).
     then(res=>{
-    alert(res.data.message)
+    toast.success(res.data.message)
+    setDateofbirth('')
+    setfirstname('')
+    setlastname('')
+    setpassword('')
+    setemail('')
     setsignup(true) })
     .catch(err=>{
      console.log(err,res.data.message)
@@ -37,32 +47,25 @@ const Poster = (props) => {
    <div className="carousel w-full h-[615px]">
   <div id="item1" className="carousel-item w-full ">
     <img
-      src="https://img.freepik.com/free-photo/images-that-simulate-x-rays-with-neon-colors_23-2151521302.jpg?ga=GA1.1.1610771717.1743011483&semt=ais_hybrid&w=740"
+      src={img1}
       className="w-full" />
   </div>
   <div id="item2" className="carousel-item w-full">
     <img
-      src="https://img.freepik.com/free-photo/african-american-medic-talking-elderly-woman-with-disability-chekcup-visit-appointment-senior-patient-with-impairment-wheelchair-husband-receiving-medical-disease-treatment_482257-49399.jpg?ga=GA1.1.1610771717.1743011483&semt=ais_hybrid&w=740"
+      src={img2}
       className="w-full" />
   </div>
   <div id="item3" className="carousel-item w-full">
     <img
-      src="https://img.freepik.com/free-photo/technology-modern-laptop-cityscape-serious_1134-756.jpg?ga=GA1.1.1610771717.1743011483&semt=ais_hybrid&w=740"
+      src={img3}
       className="w-full" />
   </div>
   <div id="item4" className="carousel-item w-full">
     <img
-      src="https://img.freepik.com/free-photo/stomatolog-nurse-tooth-clinic-checking-patient-appointment-looking-computer-monitor-stomatology-assistant-teeth-doctor-discussing-reception-dental-office_482257-11962.jpg?ga=GA1.1.1610771717.1743011483&semt=ais_hybrid&w=740"
+      src={img4}
       className="w-full bg-cover" />
   </div>
 </div>
-{/* <div className="flex w-full justify-center gap-2 py-2">
-  <a href="#item1" className="btn btn-xs h-2 "></a>
-  <a href="#item2" className="btn btn-xs h-2 "></>
-  <a href="#item3" className="btn btn-xs h-2 "></a>
-  <a href="#item4" className="btn btn-xs h-2 "></a>
-</div> */}
-
 <div id='usersignup' className={close ? 'hidden': theme==='bright'?'mt-8 ml-5 p-5 rounded  absolute left-0 border-4 border-zinc-300 bg-white  shadow-md shadow-zinc-400 text-black':'mt-8 ml-5 p-5 rounded  absolute left-0 border-4 border-zinc-900  bg-zinc-700  shadow-md shadow-zinc-700 text-white'} >
 
   <div className="container  relative pr-3 " >

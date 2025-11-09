@@ -77,23 +77,26 @@ const appointmentsupdate = mongoose.Schema({
     status:{ type: String, default:"Normal"},
     healthrate:{type:String},
     description:String,
-})
+},
+{
+    timestamps: true//this enable automatic created an updated time
+}
+)
 const appointments = mongoose.Schema({
-     appointmentid:{type:String, default:Date.now().toString(), unique: true},
     firstname: { type: String, required: true },
     lastname: String,
-    Dateofbirth: String,
-    email: { type: String, unique: true, required: true },
-    gender: String,
-    contact: Number,
+    dob: {type : String, required : true },
+    email: { type: String ,required: true,},
+    gender:  { type: String, required: true },
+    contact: {type : Number ,required : true , unique : true},
     allocateddoctor:String,
     address: String,
     city: String,
     state: String,
-    department: String,
+    department:  { type: String, required: true },
     doctor: String,
     status: { type: String, default: "Pending" },
-     update:[appointmentsupdate],
+    update:[appointmentsupdate],
     appointmentdate: { type: String, default: new Date().toDateString() },
     alloteddate: { type: String, default: null },
     allotedtime: { type: String, default: null },
