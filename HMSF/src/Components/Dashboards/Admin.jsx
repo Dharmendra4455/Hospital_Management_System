@@ -103,7 +103,7 @@ const getDocName=(id)=>{
           user={'Admin'}
           data={admindata} 
           alldata={data2}
-          appointmentrefresh={()=>otherdatahandler()}
+          refresh_Doclist={()=>otherdatahandler()}
 
           />
           <Welcomebox />
@@ -149,7 +149,7 @@ const getDocName=(id)=>{
 
           <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
           <div className="appintmentchart_container flex justify-between">
-          <div className="appointmentTable overflow-x-auto m-2 w-full">
+          <div className="appointmentTable overflow-x-auto m-2 h-fit max-h-72 w-full">
             <table className="table table-xs  text-black">
               <thead className='text-black'>
                 <tr className='border-1 border-black font-bold'>
@@ -170,7 +170,7 @@ const getDocName=(id)=>{
 
                 </tr>
               </thead>
-              <tbody className='font-bold border-1 border-black'>
+              <tbody className='font-bold border-1 border-black '>
                 {data2?.appointmentdata?.map((item, id) => {
                   return (
                   <tr className={ item.alloteddate !='null' ? ' border-1 border-black bg-white':' border-1 border-black bg-zinc-400'} key={id}>
@@ -365,7 +365,7 @@ const getDocName=(id)=>{
 
           <h1 className='text-blue-600 text-xl ml-2  font-semibold inline-block mt-10'>Doctors</h1>
          <div className="doctorChart flex justify-end gap-2">
-          <div className="overflow-x-auto ml-2 w-full">
+          <div className="overflow-auto ml-2 w-full h-fit max-h-72">
             <table className="table table-sm  text-black ">
               <thead className='text-black'>
                 <tr className='border-1 border-black '>
