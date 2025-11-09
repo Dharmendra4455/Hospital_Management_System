@@ -34,7 +34,7 @@ function PieCenterLabel({ children }) {
   );
 }
 
-export default function PieChartWithCenterLabel({appointments,doctors}) {
+export default function PieChartWithCenterLabel({appointments,doctors,User}) {
 
   const getdata=()=>{
     var data =[]
@@ -42,7 +42,8 @@ export default function PieChartWithCenterLabel({appointments,doctors}) {
     var Neurologycount=0
     var Oncologycount=0
     var Gastroenterologycount=0
-    const currentdata = doctors ? doctors :appointments
+    const currentdata = User ? User : doctors ? doctors :appointments
+    
     for(let i=0 ; i<currentdata?.length ;i++){
      if(currentdata[i].department=='Cardiology') cardiologycount++
       // data[i]={value: cardiologycount ,  label: 'Cardiology'}
@@ -66,10 +67,10 @@ export default function PieChartWithCenterLabel({appointments,doctors}) {
   React.useEffect(()=>{
   setdata(getdata())
  
-  },[appointments,doctors])
+  },[appointments,doctors,User])
   return (
     <PieChart series={[{data, innerRadius: 80 }]} {...size}>
-      <PieCenterLabel>{appointments ? appointments?.length : doctors?.length}</PieCenterLabel>
+      <PieCenterLabel>{User ? User?.length : appointments ? appointments?.length : doctors?.length}</PieCenterLabel>
     </PieChart>
   );
 }

@@ -41,15 +41,15 @@ export const userlogin=async(req,res)=>{
     if(user){
     const passcheck=await bcryptjs.compare(password,user.password)
     if(passcheck){
-        res.status(200).json({message:"Login Successfully",data:{firstname:user.firstname,lastname:user.lastname,email:user.email}})
+        return res.status(200).json({message:"Login Successfully",data:{id : user._id , firstname:user.firstname,lastname:user.lastname,email:user.email}})
        
     }
     else{
-        res.status(200).json({message:"Invalid email or Password"})
+       return res.status(401).json({message:"Invalid email or Password"})
     }
     }
     else{
-        res.send({message:"User not Exist"})
+         return res.status(401).json({message:"Invalid email or Password"})
     }
 }
 catch(error){
@@ -73,8 +73,7 @@ catch(err){
 }
 
 export const otherdata=async(req,res)=>{
-    const email=req.query.email;
-   
+    const email=req.query.email;    //in case of admin email ='' (empty) which return all
      const doctordata=await doctor.find({})
      const appointmentdata=await appointment.find({email})
     res.send({

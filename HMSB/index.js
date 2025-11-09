@@ -26,6 +26,7 @@ import { appoints } from "./Routers/appointment.js";
  app.use('/user',route1)
  app.use('/user',route2)
  app.use('/user',route3)
+ app.use('/user',appoints)
  app.use('/admin',Adminroute)  //for New admin signup
  app.use('/admin',Admin_login)
  app.use('/admin',Otherdata)
@@ -35,7 +36,6 @@ import { appoints } from "./Routers/appointment.js";
  app.use('/doctor',appointmentdata)
  app.use('/doctor',appointmentstatus)
  app.use('/doctor',docloginroute)
- app.use('/user',appoints)
 //DB Connectivity
 
 try{

@@ -13,7 +13,7 @@ const DashNavbar = (props) => {
     reason:""
   })
 
-  // console.log(props.alldata)
+
   const themehandler=async()=>{
     //const theme1=localStorage.getItem('theme')
     
@@ -52,7 +52,7 @@ else{ return toast.error("missing details!!") }
 
   return (
     <>  
-  
+
 <div className={theme==='bright' ?'navbar bg-white text-black shadow-sm':'navbar bg-zinc-800 text-white shadow-sm'}>
   <div className="navbar-start">
     <div className="dropdown">
@@ -98,7 +98,10 @@ else{ return toast.error("missing details!!") }
      <dialog id="my_modal_1" className="modal">
     <Appointmentform  
     data={props.user}
-    refresh={()=>props.refresh_Doclist()}/>
+    Appointmentrefresh={ ()=>props.appointmentrefresh()}
+    CreateDocrefresh={ ()=>props.refresh_Doclist()}
+    useremail={props.data.data.email}
+    />
     </dialog>
   </div>
   

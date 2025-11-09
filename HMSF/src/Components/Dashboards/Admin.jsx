@@ -103,7 +103,7 @@ const getDocName=(id)=>{
           user={'Admin'}
           data={admindata} 
           alldata={data2}
-          refresh_Doclist={()=>otherdatahandler()}
+          appointmentrefresh={()=>otherdatahandler()}
 
           />
           <Welcomebox />
@@ -232,9 +232,9 @@ const getDocName=(id)=>{
                         getDocName(e.target.value) 
                         }}          
                      >
-                        {/* {<option value=""  className="bg-zinc-200">
-                          {data2?.doctordata.length > 0 ? 'Select Doctor' : 'Doctors not found '}
-                        </option>} */}
+                        {<option value=""  className="bg-zinc-200">
+                          Select Doctor
+                        </option>}
                         {data2?.doctordata?.map((item2, id) => {
                           if (item2.department === Selectedappointment.department) {
                             return (
@@ -248,11 +248,11 @@ const getDocName=(id)=>{
                               </option>
                             );
                           }
-                          else{  
-                          return ( <option  value=""  className="bg-zinc-200">
-                         Doctors not found 
-                        </option>);
-                          }
+                        //   else{  
+                        //   return ( <option  value=""  className="bg-zinc-200">
+                        //  Doctors not found 
+                        // </option>);
+                        //   }
                            // Return null instead of an empty string for better React practices
                         })}
                       </select>
@@ -392,7 +392,7 @@ const getDocName=(id)=>{
                     <td>{item.department}</td>
                     <td>{item.Availabledayfrom.slice(0,3) +"-"+item.Availabledayto.slice(0,3)}</td>
                     <td>{item.Availabletimefrom +"-"+item.Availabletimeto}</td>
-                    <td>{item.Availability?"Available":"Unavailabl"}</td>
+                    <td>{item.Availability?"Available":"Unavailable"}</td>
                    
                    
                   </tr>)

@@ -1,20 +1,23 @@
 import { appointment, doctor } from "../Models/Schema.js";
 import {ObjectId} from 'mongodb'
 export const appointments=async(req,res)=>{
-    const{ firstname,
+    const{
+      firstname,
       lastname,
       Dateofbirth,
       email,
+      dob,
       gender,
       contact,
       address,
       city,
       state,
       department,
-      doctor}=req.body
-      const isexist=await appointment.findOne({email})
+      doctor
+      }=req.body
+      const isexist=await appointment.findOne({contact})
       if(isexist){
-           res.status(409).send({message:"appointment already created!!"})
+           res.status(409).send({message:"appointment already with this Contact no.s!!"})
         }
       else{
         try{
@@ -23,6 +26,7 @@ export const appointments=async(req,res)=>{
               lastname,
               Dateofbirth,
               email,
+              dob,
               gender,
               contact,
               address,
@@ -38,7 +42,9 @@ export const appointments=async(req,res)=>{
         res.status(404).json({message:"Internal Server Error!!"})
       }
 }
-}
+ }
+
+
 export const appointmentupdate =async(req,res)=>{
   const data =req.body
  try{
