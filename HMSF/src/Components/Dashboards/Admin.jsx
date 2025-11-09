@@ -140,9 +140,9 @@ const getDocName=(id)=>{
                 {/* <h1 className='text-center text-4xl font-semibold '>{data2?.doctordata?.length}</h1> */}
               </div>
             </div>
-            <div className="card4 h-28 w-48 mt-2 bg-yellow-400 rounded">
+            {/* <div className="card4 h-28 w-48 mt-2 bg-yellow-400 rounded">
 
-            </div>
+            </div> */}
             {/* <div className="card5 h-28 w-48 bg-violet-700 rounded"></div> */}
 
           </div>
@@ -205,7 +205,7 @@ const getDocName=(id)=>{
           </div>
     
 
-          <div className="pie  border-1 border-red-600 mt-2 mr-2 hidden sm:block">
+          <div className="pie  border-1 border-black mt-2 mr-2 hidden sm:block">
             <h1 className='text-black text-center font-semibold '>Total Appointments</h1>
             <PieChartWithCenterLabel
             appointments={data2?.appointmentdata}
@@ -402,7 +402,7 @@ const getDocName=(id)=>{
 
             </table>
           </div>
-          <div className="pie1 border-1 border-blue-600 hidden sm:block">
+          <div className="pie1 border-1 border-black hidden sm:block">
             <h2 className='text-black text-center font-semibold '>Total Doctors </h2>
             <PieChartWithCenterLabel
             doctors = {data2?.doctordata}
@@ -414,10 +414,10 @@ const getDocName=(id)=>{
           </div>
           <h1 className='text-green-500 text-xl ml-2  font-semibold inline-block mt-10'>Users</h1>
           <div className="Userchart flex  ">
-          <div className="overflow-x-auto w-full border-green-500 border-2 m-2">
+          <div className="overflow-auto w-full m-2 h-fit max-h-[350px] ">
             <table className="table table-sm font-semibold text-black">
               <thead className='text-black'>
-                <tr>
+                <tr className='border-1 border-black'>
                   <th></th>
                   <th>Name</th>
                   <th>DOB</th>
@@ -431,7 +431,7 @@ const getDocName=(id)=>{
                   const createddate=new Date(item.createdAt).toLocaleDateString()
                   
                   return (
-                  <tr className={currentdate===createddate?'bg-green-500 font-bold':"font-bold"} key={id}>
+                  <tr className={currentdate===createddate?'bg-green-500 font-bold':"font-bold border-1 border-black"} key={id}>
                     <th>{id + 1}</th>
                     <td>{item.firstname + " " + item.lastname}</td>
                     <td>{item.Dateofbirth}</td>
@@ -445,7 +445,7 @@ const getDocName=(id)=>{
 
             </table>
           </div>
-          <div className="Avgwaitingtim w-xl border-1 border-green-400 mt-2 mr-2 hidden sm:block">
+          <div className="Avgwaitingtim w-xl border-1 border-black mt-2 mr-2 hidden sm:block">
           <h2 className='text-black text-center font-semibold '>Average Waiting Time</h2>
              <BarChartHorizontal/>
           </div>
