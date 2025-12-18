@@ -26,16 +26,15 @@ import { useRef } from 'react'
 const Doctor = () => {
   const [status, setstatus] = useState("pending")
   const [healthrate, sethealthrate] = useState("")
-  // console.log(healthrate)
   const [description, setdescription] = useState("")
   const [selectedprsondata, setselectedperson] = useState()
   const [data3, setdata3] = useState() //to store other data
   const data = localStorage.getItem('loggedperson')
   const person = localStorage.getItem('person')    // to protect route when any login to admin and shift to user
   const SelectedappointmentUpdate = useRef([])
-  //  console.log(SelectedappointmentUpdate.current)
+  
   const data2 = JSON.parse(data)
-// console.log(data3) 
+
   const otherdatahandler = async (doc_id) => {
 
     await axios.get(`http://localhost:4000/doctor/own_appointments?id=${doc_id}`)
@@ -64,28 +63,31 @@ const Doctor = () => {
     // console.log(selectedprsondata?.firstname?.slice(0, 1))
     document.getElementById('my_modal_2').showModal()
   }
+
   const modalClosehandler = () => { 
     document.getElementById('my_modal_2').close()
   }
-  const currentdate = new Date().toLocaleDateString()
 
-  const StatusUpdatehandler=async(data)=>{
+  const currentdate = new Date().toLocaleDateString()
+   
+    // Submit Update Handler
+    const StatusUpdatehandler=async(data)=>{
     const appointment_id =data._id
     const doctor_id = JSON.parse(localStorage.getItem('loggedperson')).data.id
     if(status && healthrate)
-    SelectedappointmentUpdate.current=([...SelectedappointmentUpdate.current ,{status,description,healthrate}])
+    SelectedappointmentUpdate.current=([{status,description,healthrate}])
     else{
       toast.error("Missing details!!")
       return
     }
     let Doc_Av = true
-   if(data3.length > 1) 
+    if(data3.length > 1) 
     Doc_Av=false
     try{
       const res = await axios.post('http://localhost:4000/doctor/appointmentstatus',{data:SelectedappointmentUpdate.current,Doctor_id:doctor_id,appointment_id:appointment_id,Doc_Availabiity:Doc_Av})
       if(res)
         toast.success(res.data.message)
-       SelectedappointmentUpdate.current =[]
+        SelectedappointmentUpdate.current =[]
 
       // to refresh status
       const doc_id = JSON.parse(localStorage.getItem('loggedperson')).data.id
@@ -98,24 +100,33 @@ const Doctor = () => {
     } 
    modalClosehandler()
   }
+
   return (
     <>
       {data2 && person === 'doctor' ?
         <div>
 
           {/* Update modal */}
+         
           <dialog id="my_modal_2" className="modal">
-
+            
+            {/* Body Color */}
+            
             <div className={status === 'Discharged' ? "modal-box bg-green-700 w-[425px]" :
               status === 'Progress' ? "modal-box bg-yellow-400 w-[425px]" :
                status === 'Good' ? "modal-box bg-green-400 w-[425px]" :
-                "modal-box bg-red-400 w-[425px]"}>
+                "modal-box bg-red-400 w-[425px]"}
+            >
+             
+              {/* Avatar/first letter */}
+             
               <div className="avatar flex justify-center  ">
                 <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2 bg-gray-700">
                   {selectedprsondata?.photo ? <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
                     : <h1 className='text-5xl font-bold text-black text-center pt-5'>{selectedprsondata?.firstname.slice(0, 1)}</h1>}
                 </div>
               </div>
+              {/* Name Section */}
               <h3 className="font-bold text-lg text-center mt-2">{selectedprsondata?.firstname + " " + selectedprsondata?.lastname} </h3>
               <div className="details ml-4 mt-3 flex flex-col gap-y-3 text-black">
                 <div className="gender_dob flex gap-20">
@@ -170,7 +181,8 @@ const Doctor = () => {
                   <div className="gnder flex gap-2 items-center w-32 ">
                     <div className="icon text-gray-200 text-2xl">{<IoMdStarOutline />}</div>
                     <div className='text-md'>
-                      {status !== 'pending' ? <select onChange={(e) =>sethealthrate(e.target.value)} value={healthrate}>
+                      {status !== 'pending' ? 
+                      <select onChange={(e) =>sethealthrate(e.target.value)} value={healthrate}>
                         <option value="" className='bg-white'>Select one</option>
                         <option value="0" className='bg-red-600'disabled={status!=='Critical'?true:false}>0  Critical</option>
                         <option value="1" className='bg-red-500'disabled={status!=='Critical'?true:false}>1  Critical</option>
@@ -186,8 +198,12 @@ const Doctor = () => {
                     </div>
                   </div>
                   <div >
-                    <textarea placeholder='Description' className="w-36 h-20 bg-white" type='text'  onChange={(e)=>{setdescription(e.target.value)}}/>
-                    
+                  <textarea
+                   placeholder='Description'
+                   className="w-36 h-20 bg-white" 
+                   type='text'  
+                   onChange={(e)=>{setdescription(e.target.value)}}
+                   />
                   </div>
                 </div>
                 <div className="flex justify-center ">
@@ -246,6 +262,9 @@ const Doctor = () => {
             <h1 className=' text-xl ml-2 mt-10 font-semibold inline-block text-red-600'>Appointments</h1>
             <div className="appintmentchart_container flex justify-between">
               <div className="overflow-x-auto border-black border-2 m-2 w-full">
+               
+                {/* Table Section */}
+               
                 <table className="table table-sm  text-black">
                   <thead className='text-black'>
                     <tr className='border-black border-2'>
@@ -297,13 +316,7 @@ const Doctor = () => {
                 </table>
               </div>
             </div>
-
           </div>
-          {/* <SimpleAreaChart />
-          <DashedLineChart />
-          <BiaxialLineChart /> */}
-         
-          {/* <ColorCustomization /> */}
         </div>
         : ""}
     </>

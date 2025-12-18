@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+
+// Doctor Card 
 const Doctorcard = mongoose.Schema({
     Name: String,
     Photolink: String,
@@ -8,6 +10,8 @@ const Doctorcard = mongoose.Schema({
     timestamps: true//this enable automatic created an updated time
 }
 )
+
+// Service Card
 const Servicecard = mongoose.Schema({
     Name: String,
     Photolink: String
@@ -16,30 +20,19 @@ const Servicecard = mongoose.Schema({
         timestamps: true//this enable automatic created an updated time
     }
 )
+
+// User
 const User = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
     Dateofbirth: String,
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    //  address:[
-    //             {street:String,
-    //              city:String,
-    //              zip:String,
-    //              state:String,
-    //              Country:String},
-    //             ],
-    //     contact_no:String, 
-    // department:String,
-    // Disease:String,
-    // bed_No:Number,
-    // Doctor:String,
-    // admit_date:Date,
-    // discharge_date:Date,
 }, {
     timestamps: true//this enable automatic created an updated time
-}
-)
+})
+
+// Admin 
 const Admin = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
@@ -48,8 +41,9 @@ const Admin = mongoose.Schema({
     password: { type: String, required: true },
 }, {
     timestamps: true//this enable automatic created an updated time
-}
-)
+})
+
+//   Doctor
 const Doctor = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
@@ -73,6 +67,7 @@ const Doctor = mongoose.Schema({
     timestamps: true//this enable automatic created an updated time
 }
 )
+// appointment Update by Doctor
 const appointmentsupdate = mongoose.Schema({
     status:{ type: String, default:"Normal"},
     healthrate:{type:String},
@@ -80,8 +75,9 @@ const appointmentsupdate = mongoose.Schema({
 },
 {
     timestamps: true//this enable automatic created an updated time
-}
-)
+})
+
+// Appointment Schema
 const appointments = mongoose.Schema({
     firstname: { type: String, required: true },
     lastname: String,
@@ -102,9 +98,8 @@ const appointments = mongoose.Schema({
     allotedtime: { type: String, default: null },
     
 }, {
-    timestamps: true//this enable automatic created an updated time
-}
-)
+    timestamps: true  //this enable automatic created an updated time
+})
 export const doctorcard = mongoose.model('DoctorCard', Doctorcard);
 export const servicecard = mongoose.model('ServiceCard', Servicecard);
 export const Users = mongoose.model('User', User)

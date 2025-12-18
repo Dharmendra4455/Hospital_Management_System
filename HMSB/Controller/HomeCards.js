@@ -1,5 +1,7 @@
 import {doctorcard} from '../Models/Schema.js'
 import {servicecard} from '../Models/Schema.js'
+
+// Doctor card
 export const Doctorcard= async(req,res)=>{
     try{
          const card= await doctorcard.find()
@@ -10,6 +12,8 @@ export const Doctorcard= async(req,res)=>{
     res.status(500).json(error)
     }
 }
+
+// Service Card for home page
 export const Servicecard= async(req,res)=>{
     try{
          const card= await servicecard.find()

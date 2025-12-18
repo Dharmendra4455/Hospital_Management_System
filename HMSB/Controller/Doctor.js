@@ -28,7 +28,7 @@ export const doctors=async (req,res)=>{
     }
     else{
        const hashpass=await bcryptjs.hash(password,10)
-    const data=new doctor({
+      const data=new doctor({
       firstname,
       lastname,
       dob,
@@ -68,12 +68,12 @@ export const doctors=async (req,res)=>{
           }
          else
           {
-           res.status(200).json({message:"Invalid email or Password"})
+           res.status(400).json({message:"Invalid email or Password"})
           }
         }
       else
         {
-          res.send({message:"Doctor not Exist"})
+          res.status(400).json({message:"Doctor not Exist"})
         }
  }
  catch(err)
