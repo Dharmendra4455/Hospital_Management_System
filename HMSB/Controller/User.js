@@ -5,7 +5,7 @@ import { json } from "express";
 import bcryptjs from 'bcryptjs'
 import { doctor } from "../Models/Schema.js";
 
-
+// Create User
 export const User=async(req,res)=>{
 try {
     const {firstname,lastname,Dateofbirth,email,password}=req.body;
@@ -25,15 +25,12 @@ try {
         });
         await newuser.save();
         res.status(200).json({message:"User Successfully Created"})
-    
-}
-
-} 
+    }} 
 catch (error) {
     res.status(400).json({message:error})
-}
-}
+}}
 
+// User Login
 export const userlogin=async(req,res)=>{
     const {email,password}=req.body
     try{
@@ -41,7 +38,11 @@ export const userlogin=async(req,res)=>{
     if(user){
     const passcheck=await bcryptjs.compare(password,user.password)
     if(passcheck){
-        return res.status(200).json({message:"Login Successfully",data:{id : user._id , firstname:user.firstname,lastname:user.lastname,email:user.email}})
+        return res.status(200).json
+        ({
+            message:"Login Successfully",
+            data:{id : user._id , firstname:user.firstname,lastname:user.lastname,email:user.email}
+        })
        
     }
     else{
@@ -54,8 +55,9 @@ export const userlogin=async(req,res)=>{
 }
 catch(error){
     res.status(400).json({message:"Internal Server Error"})   
-}
-}
+}}
+
+// Forget Password
 export const forget=async(req,res)=>{
  const email=req.body.email;
  const firstname=req.body.firstname;
@@ -69,9 +71,9 @@ try{
 }}
 catch(err){
     console.log(err)
-}
-}
+}}
 
+// Appointment data
 export const otherdata=async(req,res)=>{
     const email=req.query.email;    //in case of admin email ='' (empty) which return all
      const doctordata=await doctor.find({})

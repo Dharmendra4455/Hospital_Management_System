@@ -141,7 +141,7 @@ else{ return toast.error("missing details!!") }
 
   {DeleteDoctormodalshow && (
         <>
-        <div className="allocationModal w-full h-full flex justify-center items-center absolute z-10 top-0 bg-black/80 backdrop-blur-sm">
+        <div className="allocationModal w-full h-full flex justify-center items-center fixed  z-10 top-0 bg-black/80 backdrop-blur-sm">
          
           <div className="contain w-fit h-fit bg-zinc-400 rounded relative ">
             <div className="close text-3xl text-red-600 right-0 top-0 absolute pt-1 pr-4 "

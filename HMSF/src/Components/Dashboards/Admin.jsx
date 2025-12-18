@@ -195,7 +195,8 @@ const getDocName=(id)=>{
                       {/* <input  type="date" value={alloteddate ? alloteddate : item.alloteddate ? item.alloteddate :""}  onChange={(e)=>setalloteddate(e.target.value)}/> */}
                     </td>
                     <td>{item.allotedtime}</td>
-                    <td className={item.doctor ? 'text-2xl pointer-events-none text-zinc-600':'text-md  hover:text-blue-800 hover: cursor-pointer text-2xl text-blue-700'} onClick={()=>{setshowallocationformmodel(true);setselectedappointment(item)}}><MdEdit /></td>
+                    <td className={item.doctor ? 'text-2xl pointer-events-none text-zinc-600':'text-md  hover:text-blue-800 hover: cursor-pointer text-2xl text-blue-700'}
+                     onClick={()=>{setshowallocationformmodel(true);setselectedappointment(item)}}><MdEdit /></td>
                   </tr>)
                 })}
 
@@ -216,7 +217,7 @@ const getDocName=(id)=>{
           </div>
             {showallocationformModal && (
         <>
-        <div className="allocationModal w-full h-full flex justify-center items-center absolute z-10 top-0 bg-black/80 backdrop-blur-sm">
+        <div className="allocationModal w-full h-full flex justify-center items-center  z-10 top-0 bg-black/80 backdrop-blur-sm fixed insert-0">
          
           <div className="contain w-fit h-fit bg-zinc-400 rounded relative ">
             <div className="close text-3xl text-red-600 right-0 top-0 absolute pt-1 pr-4 " onClick={()=>setshowallocationformmodel(false)}>X</div>

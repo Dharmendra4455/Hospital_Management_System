@@ -3,6 +3,8 @@ import {admin} from '.././Models/Schema.js'
 import { appointment } from '.././Models/Schema.js'
 import { doctor} from '.././Models/Schema.js'
 import { Users } from '.././Models/Schema.js'
+
+// Account Create Section
 export const Admincontroller=async(req,res)=>{ 
     const {firstname,lastname,Dob,email,password}=req.body
 try{
@@ -29,36 +31,38 @@ catch(err){
 }
 }
 
-export const admin_login=async(req,res)=>{
-     const{email,password}=req.body
-    try{
-     const data=await admin.findOne({email})
-    if(data){
-        const ispass=await bcrypt.compare(password,data.password)
-        if(ispass)
-        { res.status(200).json({
-            message:"Login Successfully",
-            data:{id:data._id,firstname:data.firstname,lastname:data.lastname,email:data.email},
-           
-            })}
-        else 
-         res.status(401).json({message:"Invalid email or password !!"})
+// Admin Login Section
+export const admin_login = async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const data = await admin.findOne({ email })
+        if (data) {
+            const ispass = await bcrypt.compare(password, data.password)
+            if (ispass) {
+                res.status(200).json({
+                    message: "Login Successfully",
+                    data: { id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email },
+                })
+            }
+            else
+                res.status(401).json({ message: "Invalid email or password !!" })
+        }
+        else {
+            res.status(401).json({ message: "Invalid email or password !!" })
+        }
     }
-    else{
-        res.status(401).json({message:"Invalid email or password !!"})
+    catch (err) {
+        res.status(500).json({ message: "Internal Server Error !!" })
     }
-}
-catch(err){
-   res.status(500).json({message:"Internal Server Error !!"})
-}
 }
 
+//  AppointmentData +DoctorData +UserData
 export const otherdata=async(req,res)=>{
-   const appointmentdata=await appointment.find({})
+     const appointmentdata=await appointment.find({})
      const doctordata=await doctor.find({})
      const Userdata=await Users.find({})
     res.send({
-         appointmentdata,
+            appointmentdata,
             doctordata,
             Userdata,
     })

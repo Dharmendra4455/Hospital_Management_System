@@ -39,7 +39,7 @@ export default function BiaxialLineChart({data}) {
   var val2=[]
    let i=0
    while(i < data.update.length){
-     val2[i]=data.update[i].createdAt ? String(data.update[i].createdAt).split('T')[0] : i //otherwise make it normal
+     val2[i]=data.update[i].updatedAt ? new Date(data.update[i].updatedAt).toLocaleTimeString() : i //otherwise make it normal
      i++
    }
    return val2
