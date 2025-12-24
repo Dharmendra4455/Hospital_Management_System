@@ -2,8 +2,6 @@
 
 > A modern, full-stack **Hospital Management System** built to streamline hospital workflows, reduce manual effort, and improve patient care through efficient digital management.
 
----
-
  ✨ Why this project?
 
 Hospitals handle large volumes of patient data, appointments, and medical records daily.  
